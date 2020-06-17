@@ -4,9 +4,19 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
+import Icon from '@material-ui/core/Icon'
+
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>BOILERMAKER</h1>
+    <h1>MASKS R US</h1>
+    <div>
+      <Icon color="secondary">search</Icon>
+      <Icon color="secondary">shopping_cart</Icon>
+      <Icon color="primary">add_shopping_cart</Icon>
+      <Icon>account_circle</Icon>
+      <Icon>login</Icon>
+    </div>
+
     <nav>
       {isLoggedIn ? (
         <div>
