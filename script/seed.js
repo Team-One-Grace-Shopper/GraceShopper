@@ -113,7 +113,7 @@ async function seed() {
     Mask.create({
       name: 'Joker Mask',
       imageUrl:
-        'https://res.cloudinary.com/teepublic/image/private/s--IKuR5BEW--/c_crop,x_10,y_10/c_fit,h_1141/c_crop,g_north_west,h_460,w_733,x_61,y_424/l_upload:v1589317030:production:blanks:zwlstpaxcoxnwwfdagtz/fl_layer_apply,g_north_west,x_-264,y_-340/b_rgb:ffffff/c_limit,f_jpg,h_630,q_90,w_630/v1590315652/production/designs/10532172_1.jpg',
+        'https://cdn.shopify.com/s/files/1/0093/1407/4687/products/IMG_8691_800x.jpg?v=1589266434',
       description: 'Patterned mask, Character, Joker',
       price: 14.99
     }),
