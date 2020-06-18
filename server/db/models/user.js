@@ -3,6 +3,20 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  isGuest: {
+    type: Sequelize.BOOLEAN,
+    default: false
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    default: false
+  },
+  firstName: {
+    type: Sequelize.STRING
+  },
+  lastName: {
+    type: Sequelize.STRING
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
