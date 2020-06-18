@@ -11,9 +11,8 @@ const Cart = db.define('cartMask', {
     defaultValue: 1
   },
   price: {
-    type: Sequelize.INTEGER,
-    allownNull: false,
-    defaultValue: 0
+    type: Sequelize.DECIMAL(10, 2),
+    allowNull: false
   }
 })
 
