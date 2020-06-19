@@ -21,15 +21,15 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/" component={AllMasks} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/profile" component={UserHome} />
-            <Route path="/home" component={LandingPage} />
+            <Route path="/home" component={AllMasks} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+        <Route path="/" component={AllMasks} />
         <Route component={LandingPage} />
       </Switch>
     )
