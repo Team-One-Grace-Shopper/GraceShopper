@@ -26,11 +26,11 @@ const gotSingleMask = mask => {
 export const getSingleMask = maskId => {
   return async dispatch => {
     try {
-      const response = await axios.get('/api/masks/:maskId')
+      const response = await axios.get(`/api/masks/${maskId}`)
       const mask = response.data
       dispatch(gotSingleMask(mask))
     } catch (error) {
-      console.log('Error in getSingleMask thunk!')
+      console.log('Error in getSingleMask thunk -->', error)
     }
   }
 }

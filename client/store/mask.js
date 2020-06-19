@@ -30,7 +30,7 @@ export const getMasks = () => {
       const masks = response.data
       dispatch(gotMasks(masks))
     } catch (error) {
-      console.log('Error in getMasks thunk!')
+      console.log('Error in getMasks thunk -->', error)
     }
   }
 }
