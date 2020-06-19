@@ -1,19 +1,41 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Mask} = require('../server/db/models')
+const {User, Mask, Order, Cart} = require('../server/db/models')
 // const {Mask} = require('sequelize/types')
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+  const [user1, user2, user3] = await Promise.all([
+    User.create({email: 'cody@email.com', password: '123', firstName: 'Cody'}),
+    User.create({email: 'murphy@email.com', password: '123'}),
+    User.create({email: 'bright_future@email.com', password: 'bright'})
   ])
 
-  const masks = await Promise.all([
+  const [
+    mask1,
+    mask2,
+    mask3,
+    mask4,
+    mask5,
+    mask6,
+    mask7,
+    mask8,
+    mask9,
+    mask10,
+    mask11,
+    mask12,
+    mask13,
+    mask14,
+    mask15,
+    mask16,
+    mask17,
+    mask18,
+    mask19,
+    mask20
+  ] = await Promise.all([
     Mask.create({
       name: 'Black Mask',
       imageUrl:
@@ -155,8 +177,63 @@ async function seed() {
     })
   ])
 
-  console.log(`seeded ${masks.length} masks`)
-  console.log(`seeded ${users.length} users`)
+  // const [order1, order2, order3] = await Promise.all([
+  //   Order.create(),
+  //   Order.create(),
+  //   Order.create()
+  // ])
+  // *** Immediately generate order for each user
+  const [order1, order2, order3] = await Promise.all([
+    user1.createOrder(),
+    user2.createOrder(),
+    user3.createOrder()
+  ])
+
+  // *** ASSOCIATIONS
+  // *** test Model associations in both directions
+  await order1.addMask([mask11.id, mask8.id])
+  await order2.addMask([mask16.id, mask4.id])
+
+  // *** test adding price in Cart model
+  // TODO: Need to find a way to combine this with the above Order.addMask method, or else we can't have "allowNull: false" property with Cart.price...
+  const [NumOfAffectedRowsPrice, affectedRowsPrice] = await Cart.update(
+    {price: mask11.price},
+    {
+      where: {
+        orderId: order1.id,
+        maskId: mask11.id
+      },
+      returning: true,
+      plain: true
+    }
+  )
+  if (affectedRowsPrice) {
+    // *** NOTE: the value represented by {order1.userId} can be used to find the user connected to this mask (findByPk()?)
+    // *** PATHWAY: mask->cart->order->user
+    // TODO: is there a better way to reference the user? will we need too?
+    console.log(`Here's ${order1.userId}'s Cart PRICE for ${mask11.name}:`)
+    console.log(affectedRowsPrice.price)
+  }
+
+  // *** test ability to change QTY of cart item
+  const [NumOfAffectedRows, affectedRows] = await Cart.update(
+    {quantity: 12},
+    {
+      where: {
+        orderId: order1.id,
+        maskId: mask11.id
+      },
+      returning: true,
+      plain: true
+    }
+  )
+  if (affectedRows) {
+    console.log(`Here's ${order1.userId}'s Cart QTY for ${mask11.name}:`)
+    console.log(affectedRows.quantity)
+  }
+
+  // console.log(`seeded ${masks.length} masks`)
+  // console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
