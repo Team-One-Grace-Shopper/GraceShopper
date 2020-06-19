@@ -133,7 +133,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
           {isLoggedIn ? renderUserMenu : null}
         </div>
       </nav>
-      <hr />
     </div>
   )
 }
