@@ -10,3 +10,12 @@ router.get('/', async (req, res, next) => {
     next(error)
   }
 })
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const singleMask = await Mask.findByPk(req.params.id)
+    res.json(singleMask)
+  } catch (error) {
+    next(error)
+  }
+})
