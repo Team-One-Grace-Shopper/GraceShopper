@@ -6,4 +6,5 @@
 export {default as Navbar} from './navbar'
 export {default as UserHome} from './user-home'
 export {default as AllMasks} from './all-masks'
+export {default as SingleMask} from './single-mask'
 export {Login, Signup} from './auth-form'
