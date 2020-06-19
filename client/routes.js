@@ -32,6 +32,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/profile" component={UserHome} />
+            <Route path="/:maskId" component={SingleMask} />
             <Route path="/home" component={AllMasks} />
           </Switch>
         )}
