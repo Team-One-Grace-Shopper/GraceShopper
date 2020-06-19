@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMasks} from '../store/mask.js'
+import {Link} from 'react-router-dom'
 
 export class AllMasks extends Component {
   constructor() {
@@ -21,7 +22,9 @@ export class AllMasks extends Component {
           masks.map(mask => {
             return (
               <div key={mask.id}>
-                <h3>{mask.name}</h3>
+                <Link to={`/${mask.id}`}>
+                  <h3>{mask.name}</h3>
+                </Link>
                 <img src={mask.imageUrl} height="300" width="300" />
                 <h6>${mask.price}</h6>
               </div>

@@ -15,7 +15,8 @@ const Order = db.define('order', {
   },
   total: {
     type: Sequelize.DECIMAL(10, 2),
-    allowNull: false
+    allowNull: false,
+    defaultValue: 0.0
   }
 })
 
