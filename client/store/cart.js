@@ -22,7 +22,7 @@ export const getCart = userId => {
   return async dispatch => {
     try {
       //TODO: create route - all masks connected to userId with status "inCart"
-      const {data} = await axios.get(`/api/${userId}/cart`)
+      const {data} = await axios.get(`/api/cart/${userId}`)
       dispatch(gotCart(data))
     } catch (error) {
       console.log('Whoops, trouble fetching desired cart!', error)
@@ -33,7 +33,7 @@ export const updateCart = (userId, cart) => {
   return async dispatch => {
     try {
       //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
-      const {data} = await axios.put(`/api/${userId}/cart/update`, cart)
+      const {data} = await axios.put(`/api/cart/${userId}/update`, cart)
       // dispatch(updatedCart(data))
       dispatch(gotCart(data))
     } catch (error) {
@@ -45,7 +45,7 @@ export const submitOrder = userId => {
   return async dispatch => {
     try {
       //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
-      const {data} = await axios.put(`/api/${userId}/cart/submit`)
+      const {data} = await axios.put(`/api/cart/${userId}/submit`)
       dispatch(submittedOrder(data))
       //TODO: page with "Thank you your order was submitted!"
       // history.push('/thanks')
