@@ -6,15 +6,11 @@ const Order = db.define('order', {
     type: Sequelize.DATE
   },
   status: {
-    type: Sequelize.STRING,
-    defaultValue: 'cart',
-    allowNull: false,
-    validate: {
-      isIn: [['cart', 'placed']]
-    }
+    type: Sequelize.ENUM('cart', 'placed'),
+    defaultValue: 'cart'
   },
   total: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 0.0
   }
