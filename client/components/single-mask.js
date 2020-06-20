@@ -20,7 +20,7 @@ export class SingleMask extends Component {
     return (
       <div>
         <h2>{mask.name}</h2>
-        <h3>${mask.price}</h3>
+        <h3>${mask.price / 100}</h3>
         <img src={mask.imageUrl} height="600" width="600" />
         <h4>Description: {mask.description}</h4>
         <Button variant="contained">Add to Cart</Button>

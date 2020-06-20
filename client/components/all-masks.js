@@ -26,7 +26,7 @@ export class AllMasks extends Component {
                   <h3>{mask.name}</h3>
                 </Link>
                 <img src={mask.imageUrl} height="300" width="300" />
-                <h6>${mask.price}</h6>
+                <h6>${mask.price / 100}</h6>
               </div>
             )
           })
