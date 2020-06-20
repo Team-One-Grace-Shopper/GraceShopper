@@ -6,6 +6,9 @@ module.exports = router
 router.get('/', async (req, res, next) => {
   try {
     const orders = await Order.findAll()
+    orders.forEach(order => {
+      order.total = order.total / 100
+    })
     res.json(orders)
   } catch (error) {
     next(error)
