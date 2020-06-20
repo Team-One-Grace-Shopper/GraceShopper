@@ -31,15 +31,14 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/profile" component={UserHome} />
-            <Route path="/home" component={AllMasks} />
+            <Route exact path="/profile" component={UserHome} />
             <Route path="/:maskId" component={SingleMask} />
+            <Route component={AllMasks} />
           </Switch>
         )}
-        {/* Displays our Login component as a fallback */}
+        {/* Displays our AllMasks component as a fallback */}
         <Route path="/:maskId" component={SingleMask} />
-        <Route path="/" component={AllMasks} />
-        <Route component={LandingPage} />
+        <Route component={AllMasks} />
       </Switch>
     )
   }

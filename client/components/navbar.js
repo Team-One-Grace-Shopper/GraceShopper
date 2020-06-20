@@ -26,6 +26,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+    // color: 'white'
   },
   appBarLink: {
     color: 'white'
@@ -95,7 +96,9 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               </IconButton>
 
               <Typography variant="h6" className={classes.title}>
-                Masks R Us
+                <Link to="/" className={classes.appBarLink}>
+                  Masks R Us
+                </Link>
               </Typography>
 
               <IconButton
