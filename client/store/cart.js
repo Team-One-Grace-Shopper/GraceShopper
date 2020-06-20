@@ -23,6 +23,7 @@ export const getCart = userId => {
     try {
       //TODO: create route - all masks connected to userId with status "inCart"
       const {data} = await axios.get(`/api/cart/${userId}`)
+      console.log('data in thunk: ', data)
       dispatch(gotCart(data))
     } catch (error) {
       console.log('Whoops, trouble fetching desired cart!', error)
@@ -60,7 +61,7 @@ export const submitOrder = userId => {
  //* INITIAL STATE
  */
 const initialState = {
-  all: [],
+  masks: [],
   loading: true
 }
 
@@ -70,7 +71,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_CART:
-      return {...state, all: action.cart, loading: false}
+      return {...state, ...action.cart, loading: false}
     // case UPDATED_CART:
     //     return {...state, ...action.cart, loading: false}
     case SUBMITTED_ORDER:

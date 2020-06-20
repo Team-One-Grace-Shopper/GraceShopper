@@ -1,16 +1,21 @@
 const router = require('express').Router()
-const {Mask, Order, User} = require('../db/models')
+const {Mask, Order, User, Cart} = require('../db/models')
 module.exports = router
 
-router.get('/userId/', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
-    const userCart = await User.findAll({
+    const findCurrentCart = await Order.findOne({
       where: {
-        id: req.params.userId,
+        userId: req.params.userId,
         status: 'cart'
+      },
+      include: {
+        model: Mask
       }
     })
-    res.json(userCart)
+    // TODO: make sure Cart price is up-to-date with Mask price
+
+    res.json(findCurrentCart)
   } catch (error) {
     next(error)
   }
