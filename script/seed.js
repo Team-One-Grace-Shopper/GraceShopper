@@ -8,10 +8,42 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const [user1, user2, user3] = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123', firstName: 'Cody'}),
-    User.create({email: 'murphy@email.com', password: '123'}),
-    User.create({email: 'bright_future@email.com', password: 'bright'})
+  const [user1, user2, user3, user4, user5] = await Promise.all([
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      firstName: 'Cody',
+      lastName: 'Pug',
+      googleId: 'codyPug'
+    }),
+    User.create({
+      email: 'murphy@email.com',
+      password: '123',
+      firstName: 'Jane',
+      lastName: 'Murphy',
+      googleId: 'janeMurphy'
+    }),
+    User.create({
+      email: 'bright_future@email.com',
+      password: 'bright',
+      firstName: 'Michelle',
+      lastName: 'Jones',
+      googleId: 'michelleJones'
+    }),
+    User.create({
+      email: 'myspamemail@email.com',
+      password: 'password',
+      firstName: 'Name',
+      lastName: 'Name',
+      googleId: 'nameName'
+    }),
+    User.create({
+      email: 'bobSmith@email.com',
+      password: 'bobsmithpassword',
+      firstName: 'Bob',
+      lastName: 'Smith',
+      googleId: 'bobSmith'
+    })
   ])
 
   const [
@@ -183,16 +215,21 @@ async function seed() {
   //   Order.create()
   // ])
   // *** Immediately generate order for each user
-  const [order1, order2, order3] = await Promise.all([
+  const [order1, order2, order3, order4, order5] = await Promise.all([
     user1.createOrder(),
     user2.createOrder(),
-    user3.createOrder()
+    user3.createOrder(),
+    user4.createOrder(),
+    user5.createOrder()
   ])
 
   // *** ASSOCIATIONS
   // *** test Model associations in both directions
   await order1.addMask([mask11.id, mask8.id])
   await order2.addMask([mask16.id, mask4.id])
+  await order3.addMask([mask5.id, mask15.id])
+  await order4.addMask([mask1.id, mask2.id, mask19.id, mask20.id])
+  await order5.addMask([mask12.id, mask7.id, mask3.id, mask17.id])
 
   // *** test adding price in Cart model
   // TODO: Need to find a way to combine this with the above Order.addMask method, or else we can't have "allowNull: false" property with Cart.price...
