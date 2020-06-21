@@ -26,14 +26,13 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
-    // color: 'white'
   },
   appBarLink: {
     color: 'white'
   }
 }))
 
-const Navbar = ({handleClick, isLoggedIn}) => {
+const Navbar = ({handleClick, isLoggedIn, numberOfCartItems}) => {
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = useState(null)
   const isMenuOpen = Boolean(anchorEl)
@@ -126,8 +125,16 @@ const Navbar = ({handleClick, isLoggedIn}) => {
                 </div>
               )}
 
-              <IconButton aria-label="number of items in cart" color="inherit">
-                <Badge badgeContent={isLoggedIn ? 15 : 4} color="secondary">
+              <IconButton
+                aria-label="number of items in cart"
+                component={Link}
+                to="/cart"
+                color="inherit"
+              >
+                <Badge
+                  badgeContent={isLoggedIn ? numberOfCartItems : 0}
+                  color="secondary"
+                >
                   <Icon color="inherit">shopping_cart</Icon>
                 </Badge>
               </IconButton>
@@ -145,7 +152,8 @@ const Navbar = ({handleClick, isLoggedIn}) => {
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    numberOfCartItems: state.cart.masks.length
   }
 }
 
@@ -154,9 +162,6 @@ const mapDispatch = dispatch => {
     handleClick() {
       dispatch(logout())
     }
-    // handleProfileClick: () => {
-    //   ownProps.history.push('/profile')
-    // }
   }
 }
 

@@ -12,6 +12,7 @@ import {
   CartPage
 } from './components'
 import {me} from './store'
+// import {getCart} from './store/cart'
 
 /**
  * COMPONENT
@@ -39,6 +40,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our AllMasks component as a fallback */}
+        <Route exact path="/cart" component={CartPage} />
         <Route path="/mask/:maskId" component={SingleMask} />
         <Route component={AllMasks} />
       </Switch>

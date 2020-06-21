@@ -19,3 +19,8 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+button.checkout {
+  margin-top: 5px;
+  margin-left: 85%;
+}
