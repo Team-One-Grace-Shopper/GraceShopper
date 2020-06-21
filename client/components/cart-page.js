@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCart} from '../store/cart'
-import {CartItem} from './cart-item'
+// import {CartItem} from './cart-item'
 
 import {makeStyles} from '@material-ui/core/styles'
 // import Grid from '@material-ui/core/Grid'
