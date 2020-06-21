@@ -29,6 +29,32 @@ router.get('/:userId', async (req, res, next) => {
 })
 
 // *** ADD new mask to a user's cart  'api/cart/' (make connection to order with status "cart")
+router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
+  try {
+    if (req.params.userId !== 0) {
+      const userCart = await Order.findOne({
+        where: {
+          userId: req.params.userId,
+          status: 'cart'
+        }
+      })
+      // TODO: what if already in cart?
+      const updateToCart = await userCart.addMask([req.params.maskId])
+      // console.log("Add mask to cart: ", response)
+      // TODO: could add req.body with QUANTITY
+
+      // res.json(userCart)
+      // res.json(updateToCart)
+      // res.redirect('/')
+    } else {
+      //TODO: create user (as guest), create order, then add to cart
+    }
+
+    // *** if no cart...
+  } catch (error) {
+    next(error)
+  }
+})
 
 // *** CREATE new order (with status = cart)
 

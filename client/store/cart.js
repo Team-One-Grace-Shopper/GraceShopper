@@ -5,6 +5,7 @@ import history from '../history'
  //* ACTION TYPES
  */
 const GOT_CART = 'GOT_CART'
+const ADDED_TO_CART = 'ADDED_TO_CART'
 // const UPDATED_CART = 'UPDATED_CART'
 // const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
@@ -13,6 +14,7 @@ const REMOVE_CART = 'REMOVE_CART'
  //* ACTION CREATORS
  */
 export const gotCart = cart => ({type: GOT_CART, cart})
+export const addedToCart = mask => ({type: ADDED_TO_CART, mask})
 // export const updatedCart = (cart) => ({type: UPDATED_CART, cart})
 // export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = () => ({type: REMOVE_CART})
@@ -36,11 +38,29 @@ export const getCart = userId => {
     }
   }
 }
-export const updateCart = (userId, cart) => {
+export const addToCart = (userId, mask) => {
+  return async dispatch => {
+    try {
+      const {cart} = await axios.post(
+        `/api/cart/${userId}/addToCart/${mask.id}`
+      )
+      console.log('Add to cart DATA: ', cart)
+      // console.log("Mask + cart DATA: ", {...mask, ...cart[0]})
+      // dispatch(addedToCart({...mask, ...cart[0]}))
+      dispatch(addedToCart({...mask, ...cart}))
+      // history.push('/cart')
+    } catch (error) {
+      console.log('Whoops, trouble adding to cart!', error)
+    }
+  }
+}
+export const updateCart = (userId, update) => {
   return async dispatch => {
     try {
       //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
-      const {data} = await axios.put(`/api/cart/${userId}/update`, cart)
+      // const {data} = await axios.put(`/api/cart/${userId}/update`, cart)
+      // for (let i = 0; )
+      const {data} = await axios.post(`/api/cart/${userId}/update`, update)
       // dispatch(updatedCart(data))
       dispatch(gotCart(data))
     } catch (error) {
@@ -79,6 +99,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_CART:
       return {...state, ...action.cart, loading: false}
+    case ADDED_TO_CART:
+      return {...state, masks: [...state.masks, action.mask], loading: false}
     // case UPDATED_CART:
     //     return {...state, ...action.cart, loading: false}
     case REMOVE_CART:
