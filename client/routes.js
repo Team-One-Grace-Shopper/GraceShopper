@@ -34,12 +34,12 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route exact path="/profile" component={UserHome} />
             <Route exact path="/cart" component={CartPage} />
-            <Route path="/:maskId" component={SingleMask} />
+            <Route path="/mask/:maskId" component={SingleMask} />
             <Route component={AllMasks} />
           </Switch>
         )}
         {/* Displays our AllMasks component as a fallback */}
-        <Route path="/:maskId" component={SingleMask} />
+        <Route path="/mask/:maskId" component={SingleMask} />
         <Route component={AllMasks} />
       </Switch>
     )
