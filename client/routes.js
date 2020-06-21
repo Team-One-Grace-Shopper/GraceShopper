@@ -8,7 +8,8 @@ import {
   UserHome,
   AllMasks,
   LandingPage,
-  SingleMask
+  SingleMask,
+  CartPage
 } from './components'
 import {me} from './store'
 
@@ -32,6 +33,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route exact path="/profile" component={UserHome} />
+            <Route exact path="/cart" component={CartPage} />
             <Route path="/:maskId" component={SingleMask} />
             <Route component={AllMasks} />
           </Switch>

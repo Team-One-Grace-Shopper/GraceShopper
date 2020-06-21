@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {getCart} from '../store/cart'
 
 import {makeStyles} from '@material-ui/core/styles'
 // import Grid from '@material-ui/core/Grid'
@@ -52,61 +53,71 @@ const useStyles = makeStyles(theme => ({
 /**
  //* COMPONENT
  */
-export const CartPage = props => {
-  //   const {email} = props
+export class CartPage extends Component {
   // const cart = props.cart
-  const classes = useStyles()
 
-  return (
-    <div className={classes.root}>
-      {/* <Card className={classes.card}>
-        <CardHeader
-          className={classes.cardHeader}
-          // classes={cardHeaderStyles}
-          title='Shopping Cart'
-          subheader='Selected items'
-        />
-        <CardContent className={classes.content}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Product</TableCell>
-                <TableCell align="right">Qty</TableCell>
-                <TableCell align="right">Price ($)</TableCell>
-                <TableCell align="right">Remove ($)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {cart.map(mask => (
-                <TableRow key={mask.id}>
-                  <TableCell component="th" scope="row">
-                    {mask.name}
-                  </TableCell>
-                  <TableCell align="right">{mask.quantity}</TableCell>
-                  <TableCell align="right">{mask.price}</TableCell>
-                  <TableCell align="right">trash icon</TableCell>
+  componentDidMount() {
+    this.props.getCart(this.props.userId)
+  }
+
+  render() {
+    // const classes = useStyles()
+
+    if (this.props.cart.masks.length) {
+      return <div>{this.props.cart.masks[0].name}</div>
+    }
+    return (
+      // <div className={classes.root}>
+      <div>
+        {/* <Card className={classes.card}>
+          <CardHeader
+            className={classes.cardHeader}
+            // classes={cardHeaderStyles}
+            title='Shopping Cart'
+            subheader='Selected items'
+          />
+          <CardContent className={classes.content}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Product</TableCell>
+                  <TableCell align="right">Qty</TableCell>
+                  <TableCell align="right">Price ($)</TableCell>
+                  <TableCell align="right">Remove ($)</TableCell>
                 </TableRow>
-              ))}
+              </TableHead>
+              <TableBody>
+                {cart.map(mask => (
+                  <TableRow key={mask.id}>
+                    <TableCell component="th" scope="row">
+                      {mask.name}
+                    </TableCell>
+                    <TableCell align="right">{mask.quantity}</TableCell>
+                    <TableCell align="right">{mask.price}</TableCell>
+                    <TableCell align="right">trash icon</TableCell>
+                  </TableRow>
+                ))}
+                <TableRow>
+                <TableCell rowSpan={3} />
+                <TableCell colSpan={2}>Subtotal</TableCell>
+                <TableCell align="right">$20.56</TableCell>
+              </TableRow>
               <TableRow>
-              <TableCell rowSpan={3} />
-              <TableCell colSpan={2}>Subtotal</TableCell>
-              <TableCell align="right">$20.56</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>Tax</TableCell>
-              <TableCell align="right">8%</TableCell>
-              <TableCell align="right">$2.57</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell colSpan={2}>Total</TableCell>
-              <TableCell align="right">{cart.total}</TableCell>
-            </TableRow>
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card> */}
-    </div>
-  )
+                <TableCell>Tax</TableCell>
+                <TableCell align="right">8%</TableCell>
+                <TableCell align="right">$2.57</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={2}>Total</TableCell>
+                <TableCell align="right">{cart.total}</TableCell>
+              </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card> */}
+      </div>
+    )
+  }
 }
 
 /**
@@ -115,12 +126,20 @@ export const CartPage = props => {
 const mapState = state => {
   console.log('Mapping State to Props:', state)
   return {
-    cart: state.cart.all,
+    userId: state.user.id,
+    cart: state.cart,
     loading: state.cart.loading
   }
 }
 
-export default connect(mapState)(CartPage)
+const mapDispatch = dispatch => {
+  console.log('Mapping dispatch to props')
+  return {
+    getCart: userId => dispatch(getCart(userId))
+  }
+}
+
+export default connect(mapState, mapDispatch)(CartPage)
 
 /**
    //* PROP TYPES
