@@ -12,6 +12,7 @@ import {
   CartPage
 } from './components'
 import {me} from './store'
+// import {getCart} from './store/cart'
 
 /**
  * COMPONENT
@@ -19,6 +20,8 @@ import {me} from './store'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    //TODO: if we can't figure out how to dispatch a getCart() thunk here... we need to kill the cart counter in navbar
+    // this.props.isLoggedIn ? this.props.getCart(this.props.userId) : console.log('create temporary new user & order with isGuest = true?')
   }
 
   render() {
@@ -39,6 +42,7 @@ class Routes extends Component {
           </Switch>
         )}
         {/* Displays our AllMasks component as a fallback */}
+        <Route exact path="/cart" component={CartPage} />
         <Route path="/mask/:maskId" component={SingleMask} />
         <Route component={AllMasks} />
       </Switch>
@@ -62,6 +66,7 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     }
+    // getCart: userId => dispatch(getCart(userId))
   }
 }
 
