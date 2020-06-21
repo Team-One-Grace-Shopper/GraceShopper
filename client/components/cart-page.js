@@ -57,66 +57,72 @@ export class CartPage extends Component {
   // const cart = props.cart
 
   componentDidMount() {
-    this.props.getCart(this.props.userId)
+    //TODO: Deal with the usecase of a user who is not logged in, may need to do this in Routes...
+
+    this.props.isLoggedIn
+      ? this.props.getCart(this.props.userId)
+      : console.log('create temporary new user & order with isGuest = true?')
   }
 
   render() {
     // const classes = useStyles()
-
+    if (this.props.cart.loading) return <div>loading...</div>
     if (this.props.cart.masks.length) {
       return <div>{this.props.cart.masks[0].name}</div>
+    } else {
+      return <div>Sorry, no items in cart</div>
     }
-    return (
-      // <div className={classes.root}>
-      <div>
-        {/* <Card className={classes.card}>
-          <CardHeader
-            className={classes.cardHeader}
-            // classes={cardHeaderStyles}
-            title='Shopping Cart'
-            subheader='Selected items'
-          />
-          <CardContent className={classes.content}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Product</TableCell>
-                  <TableCell align="right">Qty</TableCell>
-                  <TableCell align="right">Price ($)</TableCell>
-                  <TableCell align="right">Remove ($)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cart.map(mask => (
-                  <TableRow key={mask.id}>
-                    <TableCell component="th" scope="row">
-                      {mask.name}
-                    </TableCell>
-                    <TableCell align="right">{mask.quantity}</TableCell>
-                    <TableCell align="right">{mask.price}</TableCell>
-                    <TableCell align="right">trash icon</TableCell>
-                  </TableRow>
-                ))}
-                <TableRow>
-                <TableCell rowSpan={3} />
-                <TableCell colSpan={2}>Subtotal</TableCell>
-                <TableCell align="right">$20.56</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Tax</TableCell>
-                <TableCell align="right">8%</TableCell>
-                <TableCell align="right">$2.57</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell colSpan={2}>Total</TableCell>
-                <TableCell align="right">{cart.total}</TableCell>
-              </TableRow>
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card> */}
-      </div>
-    )
+    // return (
+    //   // <div className={classes.root}>
+    //   <div>
+    //     {/* <Card className={classes.card}>
+    //       <CardHeader
+    //         className={classes.cardHeader}
+    //         // classes={cardHeaderStyles}
+    //         title='Shopping Cart'
+    //         subheader='Selected items'
+    //       />
+    //       <CardContent className={classes.content}>
+    //         <Table>
+    //           <TableHead>
+    //             <TableRow>
+    //               <TableCell>Product</TableCell>
+    //               <TableCell align="right">Qty</TableCell>
+    //               <TableCell align="right">Price ($)</TableCell>
+    //               <TableCell align="right">Remove ($)</TableCell>
+    //             </TableRow>
+    //           </TableHead>
+    //           <TableBody>
+    //             {cart.map(mask => (
+    //               <TableRow key={mask.id}>
+    //                 <TableCell component="th" scope="row">
+    //                   {mask.name}
+    //                 </TableCell>
+    //                 <TableCell align="right">{mask.quantity}</TableCell>
+    //                 <TableCell align="right">{mask.price}</TableCell>
+    //                 <TableCell align="right">trash icon</TableCell>
+    //               </TableRow>
+    //             ))}
+    //             <TableRow>
+    //             <TableCell rowSpan={3} />
+    //             <TableCell colSpan={2}>Subtotal</TableCell>
+    //             <TableCell align="right">$20.56</TableCell>
+    //           </TableRow>
+    //           <TableRow>
+    //             <TableCell>Tax</TableCell>
+    //             <TableCell align="right">8%</TableCell>
+    //             <TableCell align="right">$2.57</TableCell>
+    //           </TableRow>
+    //           <TableRow>
+    //             <TableCell colSpan={2}>Total</TableCell>
+    //             <TableCell align="right">{cart.total}</TableCell>
+    //           </TableRow>
+    //           </TableBody>
+    //         </Table>
+    //       </CardContent>
+    //     </Card> */}
+    //   </div>
+    // )
   }
 }
 
@@ -128,7 +134,8 @@ const mapState = state => {
   return {
     userId: state.user.id,
     cart: state.cart,
-    loading: state.cart.loading
+    loading: state.cart.loading,
+    isLoggedIn: !!state.user.id
   }
 }
 
