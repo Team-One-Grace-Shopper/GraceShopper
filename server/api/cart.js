@@ -5,18 +5,24 @@ module.exports = router
 // *** GET a user's cart  (api/cart/)
 router.get('/:userId', async (req, res, next) => {
   try {
-    const findCurrentCart = await Order.findOne({
+    const currentCart = await Order.findOne({
       where: {
         userId: req.params.userId,
         status: 'cart'
       },
       include: {
-        model: Mask
+        model: Mask,
+        attributes: ['id', 'name', 'price']
       }
     })
     // TODO: make sure Cart price is up-to-date with Mask price
 
-    res.json(findCurrentCart)
+    currentCart.masks.forEach(mask => {
+      mask.price = mask.price / 100
+    })
+    // TODO: calculate order total before sending JSON
+
+    res.json(currentCart)
   } catch (error) {
     next(error)
   }

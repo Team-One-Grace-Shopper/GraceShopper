@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCart} from '../store/cart'
+import {CartItem} from './cart-item'
 
 import {makeStyles} from '@material-ui/core/styles'
 // import Grid from '@material-ui/core/Grid'
@@ -9,7 +10,7 @@ import {makeStyles} from '@material-ui/core/styles'
 // import Typography from '@material-ui/core/Typography'
 // import ButtonBase from '@material-ui/core/ButtonBase'
 
-//#region
+//#region   CARD & TABLE
 import Card from '@material-ui/core/Card'
 import Table from '@material-ui/core/Table'
 import TableHead from '@material-ui/core/TableHead'
@@ -19,6 +20,9 @@ import TableBody from '@material-ui/core/TableBody'
 import CardContent from '@material-ui/core/CardContent'
 import CardHeader from '@material-ui/core/CardHeader'
 //#endregion
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,75 +58,85 @@ const useStyles = makeStyles(theme => ({
  //* COMPONENT
  */
 export class CartPage extends Component {
-  // const cart = props.cart
-
+  // const classes = useStyles()
   componentDidMount() {
-    //TODO: Deal with the usecase of a user who is not logged in, may need to do this in Routes...
-
     this.props.isLoggedIn
       ? this.props.getCart(this.props.userId)
-      : console.log('create temporary new user & order with isGuest = true?')
+      : this.props.getCart(0)
   }
 
   render() {
-    // const classes = useStyles()
-    if (this.props.cart.loading) return <div>loading...</div>
-    if (this.props.cart.masks.length) {
-      return <div>{this.props.cart.masks[0].name}</div>
+    const {cart} = this.props
+    if (cart.loading) return <div>loading...</div>
+    if (cart.masks.length) {
+      return (
+        // <div className={classes.root}>
+        <div>
+          {/* <Card className={classes.card}> */}
+          <Card>
+            <CardHeader
+              // className={classes.cardHeader}
+              // classes={cardHeaderStyles}
+              title="Shopping Cart"
+              subheader="Selected items"
+            />
+            {/* <CardContent className={classes.content}> */}
+            <CardContent>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Product</TableCell>
+                    <TableCell align="right">Qty</TableCell>
+                    <TableCell align="right">Price ($)</TableCell>
+                    <TableCell align="right">Remove</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {cart.masks.map(mask => (
+                    <TableRow key={mask.id}>
+                      <TableCell component="th" scope="row">
+                        {mask.name}
+                      </TableCell>
+                      <TableCell align="right">{mask.cart.quantity}</TableCell>
+                      <TableCell align="right">{mask.price}</TableCell>
+                      <TableCell align="right">
+                        <IconButton
+                          // edge="start"
+                          // className={classes.menuButton}
+                          color="inherit"
+                          aria-label="menu"
+                        >
+                          <Icon>delete</Icon>
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell rowSpan={3} colSpan={1} />
+                    <TableCell colSpan={1} align="right">
+                      Total
+                    </TableCell>
+                    <TableCell colSpan={1} align="right">
+                      {cart.total}
+                    </TableCell>
+                    <TableCell colSpan={1} align="right" />
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <Button
+                variant="contained"
+                color="secondary"
+                className="checkout"
+              >
+                Checkout
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      )
     } else {
       return <div>Sorry, no items in cart</div>
     }
-    // return (
-    //   // <div className={classes.root}>
-    //   <div>
-    //     {/* <Card className={classes.card}>
-    //       <CardHeader
-    //         className={classes.cardHeader}
-    //         // classes={cardHeaderStyles}
-    //         title='Shopping Cart'
-    //         subheader='Selected items'
-    //       />
-    //       <CardContent className={classes.content}>
-    //         <Table>
-    //           <TableHead>
-    //             <TableRow>
-    //               <TableCell>Product</TableCell>
-    //               <TableCell align="right">Qty</TableCell>
-    //               <TableCell align="right">Price ($)</TableCell>
-    //               <TableCell align="right">Remove ($)</TableCell>
-    //             </TableRow>
-    //           </TableHead>
-    //           <TableBody>
-    //             {cart.map(mask => (
-    //               <TableRow key={mask.id}>
-    //                 <TableCell component="th" scope="row">
-    //                   {mask.name}
-    //                 </TableCell>
-    //                 <TableCell align="right">{mask.quantity}</TableCell>
-    //                 <TableCell align="right">{mask.price}</TableCell>
-    //                 <TableCell align="right">trash icon</TableCell>
-    //               </TableRow>
-    //             ))}
-    //             <TableRow>
-    //             <TableCell rowSpan={3} />
-    //             <TableCell colSpan={2}>Subtotal</TableCell>
-    //             <TableCell align="right">$20.56</TableCell>
-    //           </TableRow>
-    //           <TableRow>
-    //             <TableCell>Tax</TableCell>
-    //             <TableCell align="right">8%</TableCell>
-    //             <TableCell align="right">$2.57</TableCell>
-    //           </TableRow>
-    //           <TableRow>
-    //             <TableCell colSpan={2}>Total</TableCell>
-    //             <TableCell align="right">{cart.total}</TableCell>
-    //           </TableRow>
-    //           </TableBody>
-    //         </Table>
-    //       </CardContent>
-    //     </Card> */}
-    //   </div>
-    // )
   }
 }
 
@@ -143,6 +157,7 @@ const mapDispatch = dispatch => {
   console.log('Mapping dispatch to props')
   return {
     getCart: userId => dispatch(getCart(userId))
+    // TODO: submitOrder
   }
 }
 

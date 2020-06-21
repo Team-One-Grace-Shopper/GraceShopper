@@ -6,14 +6,16 @@ import history from '../history'
  */
 const GOT_CART = 'GOT_CART'
 // const UPDATED_CART = 'UPDATED_CART'
-const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
+// const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
+const REMOVE_CART = 'REMOVE_CART'
 
 /**
  //* ACTION CREATORS
  */
 export const gotCart = cart => ({type: GOT_CART, cart})
 // export const updatedCart = (cart) => ({type: UPDATED_CART, cart})
-export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
+// export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
+export const removeCart = () => ({type: REMOVE_CART})
 
 /**
  //* THUNK CREATORS
@@ -22,9 +24,13 @@ export const getCart = userId => {
   return async dispatch => {
     try {
       //TODO: create route - all masks connected to userId with status "inCart"
-      const {data} = await axios.get(`/api/cart/${userId}`)
-      console.log('data in thunk: ', data)
-      dispatch(gotCart(data))
+      if (userId !== 0) {
+        const {data} = await axios.get(`/api/cart/${userId}`)
+        console.log('getCart thunk data: ', data)
+        dispatch(gotCart(data))
+      } else {
+        console.log('Create a guest user & cart!')
+      }
     } catch (error) {
       console.log('Whoops, trouble fetching desired cart!', error)
     }
@@ -47,7 +53,8 @@ export const submitOrder = userId => {
     try {
       //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
       const {data} = await axios.put(`/api/cart/${userId}/submit`)
-      dispatch(submittedOrder(data))
+      // dispatch(submittedOrder(data))
+      dispatch(removeCart())
       //TODO: page with "Thank you your order was submitted!"
       // history.push('/thanks')
       history.push('/home')
@@ -74,7 +81,7 @@ export default function(state = initialState, action) {
       return {...state, ...action.cart, loading: false}
     // case UPDATED_CART:
     //     return {...state, ...action.cart, loading: false}
-    case SUBMITTED_ORDER:
+    case REMOVE_CART:
       return initialState
     default:
       return state
