@@ -20,8 +20,6 @@ import {me} from './store'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
-    //TODO: if we can't figure out how to dispatch a getCart() thunk here... we need to kill the cart counter in navbar
-    // this.props.isLoggedIn ? this.props.getCart(this.props.userId) : console.log('create temporary new user & order with isGuest = true?')
   }
 
   render() {
@@ -66,7 +64,6 @@ const mapDispatch = dispatch => {
     loadInitialData() {
       dispatch(me())
     }
-    // getCart: userId => dispatch(getCart(userId))
   }
 }
 
