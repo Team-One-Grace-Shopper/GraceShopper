@@ -15,7 +15,7 @@ const Mask = db.define('mask', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL(10, 2),
+    type: Sequelize.INTEGER,
     allowNull: false
   }
 })
