@@ -22,7 +22,7 @@ export class AllMasks extends Component {
           masks.map(mask => {
             return (
               <div key={mask.id}>
-                <Link to={`/${mask.id}`}>
+                <Link to={`/mask/${mask.id}`}>
                   <h3>{mask.name}</h3>
                 </Link>
                 <img src={mask.imageUrl} height="300" width="300" />
