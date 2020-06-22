@@ -60,14 +60,19 @@ router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
 
 // *** UPDATE cart (quantity)
 
-router.post('/:userId', async (req, res, next) => {
+router.post('/:orderId/update/:maskId', async (req, res, next) => {
   try {
-    const order = await Order.addOrCreateOrder(req.user.id)
-    // const currentCart = await userInstance.addOrCreateOrder()
-    if (order !== undefined) {
-      order.addItemToOrder(req.body.id, order.id)
+    const [NumOfAffectedRows, affectedRows] = await Cart.update(req.body, {
+      where: {
+        orderId: req.params.orderId,
+        maskId: req.params.maskId
+      },
+      returning: true,
+      plain: true
+    })
+    if (affectedRows) {
+      res.json(affectedRows)
     }
-    res.json(order)
   } catch (error) {
     next(error)
   }
