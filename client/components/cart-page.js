@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCart} from '../store/cart'
+import history from '../history'
 import {CartItem} from './cart-item'
 
 //#region   CARD & TABLE
@@ -68,6 +69,7 @@ export class CartPage extends Component {
                 variant="contained"
                 color="secondary"
                 className="checkout"
+                onClick={() => history.push('/submit')}
               >
                 Checkout
               </Button>
