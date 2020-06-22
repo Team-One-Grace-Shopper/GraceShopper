@@ -73,7 +73,7 @@ router.post('/:userId', async (req, res, next) => {
   }
 })
 
-// *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE)
+// *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE, create new order with status "cart")
 router.put('/:id/submit', async (req, res, next) => {
   try {
     if (req.params.id) {
