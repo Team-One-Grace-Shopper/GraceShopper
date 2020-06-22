@@ -86,7 +86,7 @@ async function seed() {
       name: 'Red Mask',
       imageUrl:
         'https://cdn.shopify.com/s/files/1/1527/4077/products/Red_c1b17c30-284f-4763-906e-1b79517018c1.jpg?v=1589836724',
-      description: 'Solid mask, Black',
+      description: 'Solid mask, Red',
       price: 999
     }),
     Mask.create({

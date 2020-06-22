@@ -17,7 +17,7 @@ describe('Mask routes', () => {
         name: 'Blue Mask',
         imageUrl: '/images/blueMask.jpg',
         description: 'An awesome blue mask',
-        price: 15.0
+        price: 999
       })
     })
 
@@ -30,7 +30,7 @@ describe('Mask routes', () => {
       expect(res.body[0].name).to.be.equal('Blue Mask')
       expect(res.body[0].imageUrl).to.be.equal('/images/blueMask.jpg')
       expect(res.body[0].description).to.be.equal('An awesome blue mask')
-      expect(res.body[0].price).to.be.equal('15.00')
+      expect(res.body[0].price).to.be.equal(9.99)
     })
   }) // end describe('/api/masks')
 }) // end describe('Mask routes')
