@@ -74,12 +74,14 @@ router.post('/:userId', async (req, res, next) => {
 })
 
 // *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE)
-router.put('/submit', async (req, res, next) => {
+router.put('/:id/submit', async (req, res, next) => {
   try {
-    if (req.user !== undefined) {
+    // if (req.user !== undefined) {
+    if (req.params.id) {
+      //REPLACE THIS LINE
       const newOrder = await Order.findOne({
         where: {
-          id: req.user.id,
+          userId: req.params.id,
           status: 'cart'
         }
       })

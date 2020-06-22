@@ -7,7 +7,7 @@ import history from '../history'
 const GOT_CART = 'GOT_CART'
 const ADDED_TO_CART = 'ADDED_TO_CART'
 // const UPDATED_CART = 'UPDATED_CART'
-// const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
+const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
 
 /**
@@ -16,7 +16,7 @@ const REMOVE_CART = 'REMOVE_CART'
 export const gotCart = cart => ({type: GOT_CART, cart})
 export const addedToCart = mask => ({type: ADDED_TO_CART, mask})
 // export const updatedCart = (cart) => ({type: UPDATED_CART, cart})
-// export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
+export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = () => ({type: REMOVE_CART})
 
 /**

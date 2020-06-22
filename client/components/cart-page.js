@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCart} from '../store/cart'
 // import {CartItem} from './cart-item'
-
 import {makeStyles} from '@material-ui/core/styles'
+import history from '../history'
 // import Grid from '@material-ui/core/Grid'
 // import Paper from '@material-ui/core/Paper'
 // import Typography from '@material-ui/core/Typography'
@@ -127,6 +127,7 @@ export class CartPage extends Component {
                 variant="contained"
                 color="secondary"
                 className="checkout"
+                onClick={() => history.push('/submit')}
               >
                 Checkout
               </Button>
