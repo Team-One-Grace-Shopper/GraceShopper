@@ -60,15 +60,18 @@ router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
 
 // *** UPDATE cart (quantity)
 
-router.post('/:userId', async (req, res, next) => {
+router.post('/:orderId/update/:maskId', async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId)
-    // const currentCart = await userInstance.addOrCreateOrder()
-    if (user) {
-      const newOrder = await user.createOrder
-      res.json(newOrder)
-    } else {
-      res.sendStatus(404)
+    const [NumOfAffectedRows, affectedRows] = await Cart.update(req.body, {
+      where: {
+        orderId: req.params.orderId,
+        maskId: req.params.maskId
+      },
+      returning: true,
+      plain: true
+    })
+    if (affectedRows) {
+      res.json(affectedRows)
     }
   } catch (error) {
     next(error)

@@ -57,15 +57,19 @@ export const addToCart = (userId, mask) => {
     }
   }
 }
-export const updateCart = (userId, update) => {
+export const updateCart = (orderId, maskId, update) => {
   return async dispatch => {
     try {
+      console.log("Let's update cart!", orderId, maskId)
       //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
       // const {data} = await axios.put(`/api/cart/${userId}/update`, cart)
-      // for (let i = 0; )
-      const {data} = await axios.post(`/api/cart/${userId}/update`, update)
-      // dispatch(updatedCart(data))
-      dispatch(gotCart(data))
+      const {data} = await axios.post(
+        `/api/cart/${orderId}/update/${maskId}`,
+        update
+      )
+      console.log(data)
+      // // dispatch(updatedCart(data))
+      // dispatch(gotCart(data))
     } catch (error) {
       console.log('Whoops, trouble updating your cart!', error)
     }

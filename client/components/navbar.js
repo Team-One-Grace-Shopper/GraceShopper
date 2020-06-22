@@ -79,8 +79,6 @@ const Navbar = ({handleClick, isLoggedIn, numberOfCartItems}) => {
 
   return (
     <div>
-      <h1>MASKS R US</h1>
-
       <nav>
         <div className={classes.root}>
           <AppBar position="sticky">

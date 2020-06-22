@@ -40,9 +40,8 @@ const AuthSignupForm = props => {
           <input name="password" type="password" />
         </div>
         <div>
-          <button type="submit">{displayName}</button>
-          <Button variant="contained" color="primary">
-            Hello World
+          <Button variant="contained" color="primary" type="submit">
+            {displayName}
           </Button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
