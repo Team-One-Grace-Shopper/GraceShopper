@@ -17,7 +17,7 @@ export const gotCart = cart => ({type: GOT_CART, cart})
 export const addedToCart = mask => ({type: ADDED_TO_CART, mask})
 // export const updatedCart = (cart) => ({type: UPDATED_CART, cart})
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
-export const removeCart = () => ({type: REMOVE_CART})
+export const removeCart = cart => ({type: REMOVE_CART, cart})
 
 /**
  //* THUNK CREATORS
@@ -72,12 +72,13 @@ export const submitOrder = userId => {
   return async dispatch => {
     try {
       //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
-      const {data} = await axios.put(`/api/cart/${userId}/submit`)
+      await axios.put(`/api/cart/${userId}/submit`)
       // dispatch(submittedOrder(data))
-      dispatch(removeCart())
+      await dispatch(getCart(userId))
+      await dispatch(removeCart())
       //TODO: page with "Thank you your order was submitted!"
+
       // history.push('/thanks')
-      history.push('/home')
     } catch (error) {
       console.log('Whoops, trouble submitting order or redirecting!', error)
     }

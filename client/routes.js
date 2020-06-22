@@ -10,6 +10,7 @@ import {
   LandingPage,
   SingleMask,
   CartPage,
+  Thanks,
   Checkout
 } from './components'
 import {me} from './store'
@@ -38,6 +39,7 @@ class Routes extends Component {
             <Route exact path="/cart" component={CartPage} />
             <Route exact path="/submit" component={Checkout} />
             <Route path="/mask/:maskId" component={SingleMask} />
+            <Route exact path="/thanks" component={Thanks} />
             <Route component={AllMasks} />
           </Switch>
         )}
