@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCart} from '../store/cart'
-// import {CartItem} from './cart-item'
+import {CartItem} from './cart-item'
 
 import {makeStyles} from '@material-ui/core/styles'
 // import Grid from '@material-ui/core/Grid'
@@ -93,23 +93,24 @@ export class CartPage extends Component {
                 </TableHead>
                 <TableBody>
                   {cart.masks.map(mask => (
-                    <TableRow key={mask.id}>
-                      <TableCell component="th" scope="row">
-                        {mask.name}
-                      </TableCell>
-                      <TableCell align="right">{mask.cart.quantity}</TableCell>
-                      <TableCell align="right">{mask.price}</TableCell>
-                      <TableCell align="right">
-                        <IconButton
-                          // edge="start"
-                          // className={classes.menuButton}
-                          color="inherit"
-                          aria-label="menu"
-                        >
-                          <Icon>delete</Icon>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
+                    <CartItem key={mask.id} mask={mask} />
+                    // <TableRow key={mask.id}>
+                    //   <TableCell component="th" scope="row">
+                    //     {mask.name}
+                    //   </TableCell>
+                    //   <TableCell align="right">{mask.cart.quantity}</TableCell>
+                    //   <TableCell align="right">{mask.price}</TableCell>
+                    //   <TableCell align="right">
+                    //     <IconButton
+                    //       // edge="start"
+                    //       // className={classes.menuButton}
+                    //       color="inherit"
+                    //       aria-label="menu"
+                    //     >
+                    //       <Icon>delete</Icon>
+                    //     </IconButton>
+                    //   </TableCell>
+                    // </TableRow>
                   ))}
                   <TableRow>
                     <TableCell rowSpan={3} colSpan={1} />
