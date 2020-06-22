@@ -2,16 +2,16 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {submitOrder} from '../store/cart'
 import {getCart} from '../store/cart'
-import hisroty from '../history'
+// import hisroty from '../history'
 class Checkout extends React.Component {
   componentDidMount() {
     this.props.getCart(this.props.userId)
   }
 
-  async handleSubmit(event) {
+  async handleSubmit() {
     console.log('Button clicked. Cart was placed')
     await this.props.submitOrder(this.props.userId)
-    history.pushState('/thanks')
+    // history.pushState('/thanks')
   }
 
   handleChange = event => {
@@ -23,12 +23,10 @@ class Checkout extends React.Component {
   render() {
     return (
       <div style={{margin: '200px'}}>
-        {/* <CheckoutForm
-        handleSubmit={this.handleSubmit}
-        handleChange={this.handleChange}
-        state={this.state}
-        /> */}
-
+        <li>Name</li> <input type="text" />
+        <li>Last Name </li>
+        <li>Adress</li>
+        <li>E-mail</li>
         <button onClick={() => this.handleSubmit()}>Confirmed!</button>
       </div>
     )
