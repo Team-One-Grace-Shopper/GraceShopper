@@ -26,7 +26,6 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
-    // color: 'white'
   },
   appBarLink: {
     color: 'white'
@@ -80,8 +79,6 @@ const Navbar = ({handleClick, isLoggedIn}) => {
 
   return (
     <div>
-      <h1>MASKS R US</h1>
-
       <nav>
         <div className={classes.root}>
           <AppBar position="sticky">
