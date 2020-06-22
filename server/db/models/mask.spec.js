@@ -27,7 +27,7 @@ describe('Mask model', () => {
     expect(savedMask.name).to.equal('Red Mask')
     expect(savedMask.imageUrl).to.equal('/images/redMask.jpg')
     expect(savedMask.description).to.equal('A beautiful red mask')
-    expect(savedMask.price).to.equal('11.00')
+    expect(savedMask.price).to.equal(11)
     expect(savedMask.notARealAttribute).to.equal(undefined)
   })
 
