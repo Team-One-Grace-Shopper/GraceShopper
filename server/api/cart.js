@@ -62,16 +62,21 @@ router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
 
 router.post('/:userId', async (req, res, next) => {
   try {
-    const order = await Order.addOrCreateOrder(req.user.id)
+    const user = await User.findByPk(req.params.userId)
     // const currentCart = await userInstance.addOrCreateOrder()
-    if (order !== undefined) {
-      order.addItemToOrder(req.body.id, order.id)
+    if (user) {
+      const newOrder = await user.createOrder
+      res.json(newOrder)
+    } else {
+      res.sendStatus(404)
     }
-    res.json(order)
   } catch (error) {
     next(error)
   }
 })
+
+//can possibly use user.createOrder to make a new cart after submission
+// console.log(Object.keys(User.prototype))
 
 // *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE, create new order with status "cart")
 router.put('/:id/submit', async (req, res, next) => {
@@ -80,10 +85,14 @@ router.put('/:id/submit', async (req, res, next) => {
       const newOrder = await Order.findOne({
         where: {
           userId: req.params.id,
-          status: 'cart'
+          status: 'cart',
+          total
         }
       })
-      await newOrder.update({status: 'placed'})
+      await newOrder.update({
+        status: 'placed',
+        date: Date.now()
+      })
       res.json(newOrder)
     }
   } catch (error) {
