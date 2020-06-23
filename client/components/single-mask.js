@@ -80,6 +80,7 @@ const mapDispatch = (dispatch, ownProps) => {
     getSingleMask: maskId => dispatch(getSingleMask(maskId)),
     addToCart: (userId, mask) => {
       dispatch(addToCart(userId, mask))
+      // dispatch(getCart(userId))
       // console.log(ownProps.history)
       // ownProps.history.push('/cart')
     }

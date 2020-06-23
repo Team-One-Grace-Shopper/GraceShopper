@@ -16,7 +16,7 @@ router.get('/:userId', async (req, res, next) => {
       }
     })
     // TODO: make sure Cart price is up-to-date with Mask price
-
+    currentCart.total = currentCart.total / 100
     currentCart.masks.forEach(mask => {
       mask.price = mask.price / 100
     })
@@ -77,25 +77,39 @@ router.post('/:orderId/update/:maskId', async (req, res, next) => {
   }
 })
 
-//can possibly use user.createOrder to make a new cart after submission
-// console.log(Object.keys(User.prototype))
+// console.log(Object.keys(Order.prototype))
 
 // *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE, create new order with status "cart")
 router.put('/:id/submit', async (req, res, next) => {
   try {
     if (req.params.id) {
-      const newOrder = await Order.findOne({
+      const foundOrder = await Order.findOne({
         where: {
           userId: req.params.id,
-          status: 'cart',
-          total
+          status: 'cart'
+        },
+        include: {
+          model: Mask,
+          attributes: ['price']
         }
       })
-      await newOrder.update({
+      const findTotal = (arr, startVal = 0) => {
+        return arr.reduce((accum, masks) => {
+          return accum + masks.price
+        }, startVal)
+      }
+      const total = findTotal(foundOrder.masks)
+
+      await foundOrder.update({
         status: 'placed',
-        date: Date.now()
+        date: Date.now(),
+        total: total
       })
-      res.json(newOrder)
+
+      const theUser = await User.findByPk(req.params.id)
+      const theNewCart = theUser.createOrder()
+
+      res.json(theNewCart)
     }
   } catch (error) {
     next(error)
