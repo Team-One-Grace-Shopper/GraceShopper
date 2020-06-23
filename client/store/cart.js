@@ -9,7 +9,7 @@ const ADDED_TO_CART = 'ADDED_TO_CART'
 // const UPDATED_CART = 'UPDATED_CART'
 const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
-const CREATED_CART = 'CREATED_CART'
+// const CREATED_CART = 'CREATED_CART'
 
 /**
  //* ACTION CREATORS
@@ -19,7 +19,7 @@ export const addedToCart = mask => ({type: ADDED_TO_CART, mask})
 // export const updatedCart = (cart) => ({type: UPDATED_CART, cart})
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = cart => ({type: REMOVE_CART, cart})
-export const createdCart = cart => ({type: CREATED_CART, cart})
+// export const createdCart = cart => ({type: CREATED_CART, cart})
 
 /**
  //* THUNK CREATORS
@@ -76,30 +76,23 @@ export const updateCart = (orderId, maskId, update) => {
   }
 }
 
-export const createCart = userId => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post(`/api/cart/${userId}`)
-      dispatch(createdCart(data))
-      console.log('DATA IN CREATECART THUNK -->', data)
-    } catch (error) {
-      console.log('Something went wrong in createCart Thunk', error)
-    }
-  }
-}
+// export const createCart = userId => {
+//   return async dispatch => {
+//     try {
+//       const {data} = await axios.post(`/api/cart/${userId}`)
+//       dispatch(createdCart(data))
+//       console.log('DATA IN CREATECART THUNK -->', data)
+//     } catch (error) {
+//       console.log('Something went wrong in createCart Thunk', error)
+//     }
+//   }
+// }
 
 export const submitOrder = userId => {
   return async dispatch => {
     try {
-      //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
       await axios.put(`/api/cart/${userId}/submit`)
-      // dispatch(submittedOrder(data))
-      // await dispatch(getCart(userId))
-      // await dispatch(removeCart())
-      //TODO: page with "Thank you your order was submitted!"
-      await dispatch(createCart(userId))
-
-      // history.push('/thanks')
+      // await dispatch(createCart(userId))
     } catch (error) {
       console.log('Whoops, trouble submitting order or redirecting!', error)
     }
@@ -127,8 +120,8 @@ export default function(state = initialState, action) {
     //     return {...state, ...action.cart, loading: false}
     case REMOVE_CART:
       return initialState
-    case CREATED_CART:
-      return {...state, ...action.cart, loading: false}
+    // case CREATED_CART:
+    //   return {...state, ...action.cart, loading: false}
     default:
       return state
   }
