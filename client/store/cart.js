@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../history'
-import user from './user'
 
 /**
  //* ACTION TYPES
