@@ -33,7 +33,7 @@ class Checkout extends React.Component {
           <label>Address</label>
           <input type="text" />
           <label>Credit Card</label>
-          <input type="number" />
+          <input type="text" />
         </form>
         <button onClick={() => this.handleSubmit()}>Confirm!</button>
       </div>
