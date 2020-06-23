@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateCart} from '../store/cart'
+import {updateCart, removeItem} from '../store/cart'
+import {RemoveItem} from './remove-item'
 
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
@@ -32,6 +33,11 @@ export class CartItem extends Component {
       })
     }
   }
+  //Separate function?
+  // removeItem(maskId) {
+  //   const itemToDelete = this.props.mask.cart.maskId
+
+  // }
 
   render() {
     // TODO: update form input validation to not allow anything but integers
@@ -62,7 +68,14 @@ export class CartItem extends Component {
         </TableCell>
         <TableCell align="right">{this.props.mask.price}</TableCell>
         <TableCell align="right">
-          <IconButton color="inherit" aria-label="delete">
+          <IconButton
+            color="inherit"
+            aria-label="delete"
+            type="button"
+            onClick={() => {
+              this.props.removeItem(this.props.mask.cart)
+            }}
+          >
             <Icon>delete</Icon>
           </IconButton>
         </TableCell>
@@ -75,6 +88,9 @@ const mapDispatch = dispatch => {
   return {
     updateCart: (orderId, maskId, update) => {
       dispatch(updateCart(orderId, maskId, update))
+    },
+    removeItem: (orderId, maskId) => {
+      dispatch(removeItem(orderId, maskId))
     }
   }
 }

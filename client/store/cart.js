@@ -110,7 +110,7 @@ export const removeItem = (orderId, maskId) => {
   return async dispatch => {
     try {
       const {data} = await axios.delete(`api/cart/${orderId}/${maskId}`)
-      dispatch(removeItem(data))
+      dispatch(removeItem(maskId, data))
     } catch (error) {
       console.log('Whoops, trouble deleting item from your cart!')
     }
@@ -150,7 +150,7 @@ export default function(state = initialState, action) {
     case CREATED_CART:
       return {...state, ...action.cart, loading: false}
     case REMOVED_ITEM:
-      return {...state, ...action.cart, loading: false}
+      return {state, loading: false}
     default:
       return state
   }
