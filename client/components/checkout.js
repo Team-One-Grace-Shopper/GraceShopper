@@ -23,13 +23,19 @@ class Checkout extends React.Component {
   render() {
     return (
       <div style={{margin: '200px'}}>
-        {/* <form>
-        Name <input type="text" />
-        Last Name <input type="text" />
-        Address <input type="text" />
-        E-mail  <input type="text" />
-        </form> */}
-        <button onClick={() => this.handleSubmit()}>Confirmed!</button>
+        <form>
+          <label>First Name</label>
+          <input type="text" />
+          <label>Email</label>
+          <input type="text" />
+          <label>Last Name</label>
+          <input type="text" />
+          <label>Address</label>
+          <input type="text" />
+          <label>Credit Card</label>
+          <input type="number" />
+        </form>
+        <button onClick={() => this.handleSubmit()}>Confirm!</button>
       </div>
     )
   }
