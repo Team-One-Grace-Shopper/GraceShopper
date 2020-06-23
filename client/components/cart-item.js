@@ -62,7 +62,17 @@ export class CartItem extends Component {
         </TableCell>
         <TableCell align="right">{this.props.mask.price}</TableCell>
         <TableCell align="right">
-          <IconButton color="inherit" aria-label="delete">
+          <IconButton
+            color="inherit"
+            aria-label="delete"
+            type="button"
+            onClick={() => {
+              this.props.removeItem(
+                this.props.mask.cart.orderId,
+                this.props.mask.id
+              )
+            }}
+          >
             <Icon>delete</Icon>
           </IconButton>
         </TableCell>
