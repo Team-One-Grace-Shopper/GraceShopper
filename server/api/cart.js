@@ -59,7 +59,6 @@ router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
 // *** CREATE new order (with status = cart)
 
 // *** UPDATE cart (quantity)
-
 router.post('/:orderId/update/:maskId', async (req, res, next) => {
   try {
     const [NumOfAffectedRows, affectedRows] = await Cart.update(req.body, {

@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../history'
 
@@ -6,7 +7,7 @@ import history from '../history'
  */
 const GOT_CART = 'GOT_CART'
 const ADDED_TO_CART = 'ADDED_TO_CART'
-// const UPDATED_CART = 'UPDATED_CART'
+const UPDATED_CART = 'UPDATED_CART'
 const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
 const CREATED_CART = 'CREATED_CART'
@@ -16,7 +17,11 @@ const CREATED_CART = 'CREATED_CART'
  */
 export const gotCart = cart => ({type: GOT_CART, cart})
 export const addedToCart = mask => ({type: ADDED_TO_CART, mask})
-// export const updatedCart = (cart) => ({type: UPDATED_CART, cart})
+export const updatedCart = (maskId, cart) => ({
+  type: UPDATED_CART,
+  maskId,
+  cart
+})
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = cart => ({type: REMOVE_CART, cart})
 export const createdCart = cart => ({type: CREATED_CART, cart})
@@ -27,12 +32,11 @@ export const createdCart = cart => ({type: CREATED_CART, cart})
 export const getCart = userId => {
   return async dispatch => {
     try {
-      //TODO: create route - all masks connected to userId with status "inCart"
       if (userId !== 0) {
         const {data} = await axios.get(`/api/cart/${userId}`)
-        console.log('getCart thunk data: ', data)
         dispatch(gotCart(data))
       } else {
+        //TODO: if user is not logged in, create user ("isGuest = true"), create cart
         console.log('Create a guest user & cart!')
       }
     } catch (error) {
@@ -48,8 +52,6 @@ export const addToCart = (userId, mask) => {
         `/api/cart/${userId}/addToCart/${mask.id}`
       )
       console.log('Add to cart DATA: ', cart)
-      // console.log("Mask + cart DATA: ", {...mask, ...cart[0]})
-      // dispatch(addedToCart({...mask, ...cart[0]}))
       dispatch(addedToCart({...mask, ...cart}))
       // history.push('/cart')
     } catch (error) {
@@ -60,16 +62,11 @@ export const addToCart = (userId, mask) => {
 export const updateCart = (orderId, maskId, update) => {
   return async dispatch => {
     try {
-      console.log("Let's update cart!", orderId, maskId)
-      //TODO: create route - all "orders" (in Order table) connected to userId with status "inCart" => change status to "purchased"
-      // const {data} = await axios.put(`/api/cart/${userId}/update`, cart)
       const {data} = await axios.post(
         `/api/cart/${orderId}/update/${maskId}`,
         update
       )
-      console.log(data)
-      // // dispatch(updatedCart(data))
-      // dispatch(gotCart(data))
+      dispatch(updatedCart(maskId, data))
     } catch (error) {
       console.log('Whoops, trouble updating your cart!', error)
     }
@@ -123,8 +120,17 @@ export default function(state = initialState, action) {
       return {...state, ...action.cart, loading: false}
     case ADDED_TO_CART:
       return {...state, masks: [...state.masks, action.mask], loading: false}
-    // case UPDATED_CART:
-    //     return {...state, ...action.cart, loading: false}
+    case UPDATED_CART:
+      return {
+        ...state,
+        masks: state.masks.map(mask => {
+          if (mask.id === action.maskId) {
+            mask.cart = action.cart
+          }
+          return mask
+        }),
+        loading: false
+      }
     case REMOVE_CART:
       return initialState
     case CREATED_CART:
