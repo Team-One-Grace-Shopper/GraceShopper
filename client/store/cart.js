@@ -53,6 +53,7 @@ export const addToCart = (userId, mask) => {
       )
       console.log('Add to cart DATA: ', cart)
       dispatch(addedToCart({...mask, ...cart}))
+      // dispatch(gotCart(userId))
       // history.push('/cart')
     } catch (error) {
       console.log('Whoops, trouble adding to cart!', error)
