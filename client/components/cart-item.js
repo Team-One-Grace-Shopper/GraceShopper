@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateCart, removeItem} from '../store/cart'
-import {RemoveItem} from './remove-item'
 
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
@@ -68,16 +67,20 @@ export class CartItem extends Component {
         </TableCell>
         <TableCell align="right">{this.props.mask.price}</TableCell>
         <TableCell align="right">
-          <IconButton
+          <button
             color="inherit"
             aria-label="delete"
             type="button"
             onClick={() => {
-              this.props.removeItem(this.props.mask.cart)
+              console.log('CLICKED')
+              this.props.removeItem(
+                this.props.mask.cart.orderId,
+                this.props.mask.id
+              )
             }}
           >
             <Icon>delete</Icon>
-          </IconButton>
+          </button>
         </TableCell>
       </TableRow>
     )
@@ -88,10 +91,10 @@ const mapDispatch = dispatch => {
   return {
     updateCart: (orderId, maskId, update) => {
       dispatch(updateCart(orderId, maskId, update))
-    },
-    removeItem: (orderId, maskId) => {
-      dispatch(removeItem(orderId, maskId))
     }
+    // removeItem: (orderId, maskId) => {
+    //   dispatch(removeItem(orderId, maskId))
+    // }
   }
 }
 

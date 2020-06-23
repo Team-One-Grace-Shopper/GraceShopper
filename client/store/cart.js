@@ -27,7 +27,7 @@ export const updatedCart = (maskId, cart) => ({
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = cart => ({type: REMOVE_CART, cart})
 export const createdCart = cart => ({type: CREATED_CART, cart})
-export const removedItem = cart => ({type: REMOVED_ITEM, cart})
+export const removedItem = maskId => ({type: REMOVED_ITEM, maskId})
 
 /**
  //* THUNK CREATORS
@@ -109,8 +109,8 @@ export const submitOrder = userId => {
 export const removeItem = (orderId, maskId) => {
   return async dispatch => {
     try {
-      const {data} = await axios.delete(`api/cart/${orderId}/${maskId}`)
-      dispatch(removeItem(maskId, data))
+      await axios.delete(`api/cart/${orderId}/remove/${maskId}`)
+      dispatch(removedItem(maskId))
     } catch (error) {
       console.log('Whoops, trouble deleting item from your cart!')
     }
@@ -150,7 +150,10 @@ export default function(state = initialState, action) {
     case CREATED_CART:
       return {...state, ...action.cart, loading: false}
     case REMOVED_ITEM:
-      return {state, loading: false}
+      return {
+        ...state,
+        masks: state.masks.filter(mask => mask.id !== action.maskId)
+      }
     default:
       return state
   }

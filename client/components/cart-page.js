@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {getCart, updateCart} from '../store/cart'
+import {getCart, updateCart, removeItem} from '../store/cart'
 import history from '../history'
 import {CartItem} from './cart-item'
 
@@ -52,6 +52,7 @@ export class CartPage extends Component {
                       mask={mask}
                       userId={this.props.userId}
                       updateCart={this.props.updateCart}
+                      removeItem={this.props.removeItem}
                     />
                   ))}
                   <TableRow>
@@ -104,6 +105,10 @@ const mapDispatch = dispatch => {
     // TODO: submitOrder
     updateCart: (orderId, maskId, update) => {
       dispatch(updateCart(orderId, maskId, update))
+    },
+    removeItem: (orderId, maskId) => {
+      console.log('IN MAP DISPATCH')
+      dispatch(removeItem(orderId, maskId))
     }
   }
 }
