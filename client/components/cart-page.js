@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {getCart} from '../store/cart'
+import {getCart, updateCart} from '../store/cart'
 import history from '../history'
 import {CartItem} from './cart-item'
 
@@ -51,6 +51,7 @@ export class CartPage extends Component {
                       key={mask.id}
                       mask={mask}
                       userId={this.props.userId}
+                      updateCart={this.props.updateCart}
                     />
                   ))}
                   <TableRow>
@@ -99,16 +100,19 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   console.log('Mapping dispatch to props')
   return {
-    getCart: userId => dispatch(getCart(userId))
+    getCart: userId => dispatch(getCart(userId)),
     // TODO: submitOrder
+    updateCart: (orderId, maskId, update) => {
+      dispatch(updateCart(orderId, maskId, update))
+    }
   }
 }
 
 export default connect(mapState, mapDispatch)(CartPage)
 
 /**
-   //* PROP TYPES
-   */
+ //* PROP TYPES
+*/
 // CartPage.propTypes = {
 //   cart: PropTypes.array
 // }
