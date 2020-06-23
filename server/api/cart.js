@@ -105,7 +105,11 @@ router.put('/:id/submit', async (req, res, next) => {
         date: Date.now(),
         total: total
       })
-      res.json(foundOrder)
+
+      const theUser = await User.findByPk(req.params.id)
+      const theNewCart = theUser.createOrder()
+
+      res.json(theNewCart)
     }
   } catch (error) {
     next(error)
