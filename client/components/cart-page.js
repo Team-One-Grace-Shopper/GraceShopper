@@ -107,7 +107,6 @@ const mapDispatch = dispatch => {
       dispatch(updateCart(orderId, maskId, update))
     },
     removeItem: (orderId, maskId) => {
-      console.log('IN MAP DISPATCH')
       dispatch(removeItem(orderId, maskId))
     }
   }

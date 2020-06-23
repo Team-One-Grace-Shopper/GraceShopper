@@ -113,8 +113,6 @@ router.delete('/:orderId/remove/:maskId', async (req, res, next) => {
     } else {
       res.sendStatus(404)
     }
-    //parent.removeChild
-    //Order.removeMask
   } catch (error) {
     next(error)
   }
