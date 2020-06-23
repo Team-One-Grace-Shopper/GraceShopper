@@ -1,14 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {getMasks} from '../store/mask.js'
-import {Link} from 'react-router-dom'
 import {getCart} from '../store/cart'
 
-export class AllMasks extends Component {
-  constructor() {
-    super()
-  }
+import Grid from '@material-ui/core/Grid'
+import AllMasksListItem from './all-masks-list-item.js'
 
+export class AllMasks extends Component {
   componentDidMount() {
     this.props.getMasks()
     this.props.isLoggedIn
@@ -22,21 +20,21 @@ export class AllMasks extends Component {
     return (
       <div>
         <h1>Take a look at all of our Masks:</h1>
-        {masks ? (
-          masks.map(mask => {
-            return (
-              <div key={mask.id}>
-                <Link to={`/mask/${mask.id}`}>
-                  <h3>{mask.name}</h3>
-                </Link>
-                <img src={mask.imageUrl} height="300" width="300" />
-                <h6>${mask.price}</h6>
-              </div>
-            )
-          })
-        ) : (
-          <h1>No masks found!</h1>
-        )}
+        <div className="root">
+          <Grid container spacing={3}>
+            {masks ? (
+              masks.map(mask => {
+                return (
+                  <Grid item xs={12} sm={6} key={mask.id}>
+                    <AllMasksListItem mask={mask} />
+                  </Grid>
+                )
+              })
+            ) : (
+              <h1>No masks found!</h1>
+            )}
+          </Grid>
+        </div>
       </div>
     )
   }
