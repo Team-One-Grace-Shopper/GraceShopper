@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import axios from 'axios'
 import history from '../history'
+import user from './user'
 
 /**
  //* ACTION TYPES
@@ -11,6 +12,7 @@ const UPDATED_CART = 'UPDATED_CART'
 const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
 const CREATED_CART = 'CREATED_CART'
+const REMOVED_ITEM = 'REMOVED_ITEM'
 
 /**
  //* ACTION CREATORS
@@ -25,6 +27,7 @@ export const updatedCart = (maskId, cart) => ({
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = cart => ({type: REMOVE_CART, cart})
 export const createdCart = cart => ({type: CREATED_CART, cart})
+export const removedItem = cart => ({type: REMOVED_ITEM, cart})
 
 /**
  //* THUNK CREATORS
@@ -103,6 +106,17 @@ export const submitOrder = userId => {
   }
 }
 
+export const removeItem = (orderId, maskId) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.delete(`api/cart/${orderId}/${maskId}`)
+      dispatch(removeItem(data))
+    } catch (error) {
+      console.log('Whoops, trouble deleting item from your cart!')
+    }
+  }
+}
+
 /**
  //* INITIAL STATE
  */
@@ -134,6 +148,8 @@ export default function(state = initialState, action) {
     case REMOVE_CART:
       return initialState
     case CREATED_CART:
+      return {...state, ...action.cart, loading: false}
+    case REMOVED_ITEM:
       return {...state, ...action.cart, loading: false}
     default:
       return state
