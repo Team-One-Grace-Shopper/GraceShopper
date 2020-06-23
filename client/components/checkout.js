@@ -26,9 +26,9 @@ class Checkout extends React.Component {
         <form>
           <label>First Name</label>
           <input type="text" />
-          <label>Email</label>
-          <input type="text" />
           <label>Last Name</label>
+          <input type="text" />
+          <label>Email</label>
           <input type="text" />
           <label>Address</label>
           <input type="text" />
