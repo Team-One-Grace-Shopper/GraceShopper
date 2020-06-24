@@ -136,23 +136,19 @@ export default function(state = initialState, action) {
           }
           return mask
         }),
-        // numObj.toFixed(1)
         subtotal: getTotalUpdate(state.masks).toFixed(2),
         loading: false
       }
     case REMOVE_CART:
       return initialState
     case REMOVED_ITEM:
-      // const getTotalRemoveCart = (arr, startVal = 0) => {
-      //   return arr.reduce((accum, masks) => {
-      //     return accum + masks.price * masks.cart.quantity
-      //   }, startVal)
-      // }
       const found = state.masks.find(mask => mask.id === action.maskId)
       return {
         ...state,
         masks: state.masks.filter(mask => mask.id !== action.maskId),
-        subtotal: (state.subtotal -= found.price * found.cart.quantity)
+        subtotal: (state.subtotal -= found.price * found.cart.quantity).toFixed(
+          2
+        )
       }
     default:
       return state
