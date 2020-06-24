@@ -19,7 +19,7 @@ export class AllMasks extends Component {
 
     return (
       <div>
-        <h1>Take a look at all of our Masks:</h1>
+        <h1 className="header">Take a look at all of our Masks</h1>
         <div className="root">
           <Grid container spacing={3}>
             {masks ? (

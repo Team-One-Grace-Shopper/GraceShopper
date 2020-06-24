@@ -21,7 +21,7 @@ export default function AllMasksListItem(props) {
         <h3>{props.mask.name}</h3>
       </Link>
       <img src={props.mask.imageUrl} height="300" width="300" />
-      <h6>${props.mask.price}</h6>
+      <h4>${props.mask.price}</h4>
     </Paper>
   )
 }

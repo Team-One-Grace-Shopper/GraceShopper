@@ -28,3 +28,8 @@ button.checkout {
   margin-top: 5px;
   margin-left: 85%;
 }
+
+.header {
+  text-align: center;
+  color: black;
+}
