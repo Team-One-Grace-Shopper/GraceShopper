@@ -2,17 +2,8 @@ const router = require('express').Router()
 const {Mask, Order, User, Cart} = require('../db/models')
 module.exports = router
 
-const isLogging = (req, res, next) => {
-  if (req.user === undefined || req.user.id !== Number(req.params.userId)) {
-    const error = new Error('illegal action')
-    error.status = 401
-    return next(error)
-  }
-  next()
-}
-
 // *** GET a user's cart  (api/cart/)
-router.get('/:userId', isLogging, async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
   try {
     const currentCart = await Order.findOne({
       where: {
@@ -38,7 +29,7 @@ router.get('/:userId', isLogging, async (req, res, next) => {
 })
 
 // *** ADD new mask to a user's cart  'api/cart/' (make connection to order with status "cart")
-router.post('/:userId/addToCart/:maskId', isLogging, async (req, res, next) => {
+router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
   try {
     if (req.params.userId !== 0) {
       const userCart = await Order.findOne({
@@ -68,7 +59,7 @@ router.post('/:userId/addToCart/:maskId', isLogging, async (req, res, next) => {
 // *** CREATE new order (with status = cart)
 
 // *** UPDATE cart (quantity)
-router.post('/:orderId/update/:maskId', isLogging, async (req, res, next) => {
+router.post('/:orderId/update/:maskId', async (req, res, next) => {
   try {
     const [NumOfAffectedRows, affectedRows] = await Cart.update(req.body, {
       where: {
@@ -89,7 +80,7 @@ router.post('/:orderId/update/:maskId', isLogging, async (req, res, next) => {
 // console.log(Object.keys(Order.prototype))
 
 // *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE, create new order with status "cart")
-router.put('/:id/submit', isLogging, async (req, res, next) => {
+router.put('/:id/submit', async (req, res, next) => {
   try {
     if (req.params.id) {
       const foundOrder = await Order.findOne({
@@ -127,7 +118,7 @@ router.put('/:id/submit', isLogging, async (req, res, next) => {
 
 //Deleting an item from a cart
 
-router.delete('/:orderId/remove/:maskId', isLogging, async (req, res, next) => {
+router.delete('/:orderId/remove/:maskId', async (req, res, next) => {
   try {
     const userCart = await Order.findByPk(req.params.orderId)
     if (userCart) {
