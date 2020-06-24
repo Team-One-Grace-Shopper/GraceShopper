@@ -160,17 +160,18 @@ export default function(state = initialState, action) {
         loading: false
       }
     case REMOVE_CART:
+      return initialState
+    case REMOVED_ITEM:
       // const getTotalRemoveCart = (arr, startVal = 0) => {
       //   return arr.reduce((accum, masks) => {
       //     return accum + masks.price * masks.cart.quantity
       //   }, startVal)
       // }
-      return initialState
-    case REMOVED_ITEM:
+      const found = state.masks.find(mask => mask.id === action.maskId)
       return {
         ...state,
-        masks: state.masks.filter(mask => mask.id !== action.maskId)
-        // subtotal: getTotalRemoveCart(state.masks)
+        masks: state.masks.filter(mask => mask.id !== action.maskId),
+        subtotal: (state.subtotal -= found.price * found.cart.quantity)
       }
     // case CREATED_CART:
     //   return {...state, ...action.cart, loading: false}
