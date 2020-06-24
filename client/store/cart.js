@@ -102,8 +102,8 @@ export const submitOrder = userId => {
  */
 const initialState = {
   masks: [],
-  loading: true,
-  subtotal: 50
+  subtotal: 0,
+  loading: true
 }
 
 /**
@@ -114,7 +114,12 @@ export default function(state = initialState, action) {
     case GOT_CART:
       return {...state, ...action.cart, loading: false}
     case ADDED_TO_CART:
-      return {...state, masks: [...state.masks, action.mask], loading: false}
+      return {
+        ...state,
+        masks: [...state.masks, action.mask],
+        subtotal: 999999999999,
+        loading: false
+      }
     case UPDATED_CART:
       return {
         ...state,
@@ -128,8 +133,6 @@ export default function(state = initialState, action) {
       }
     case REMOVE_CART:
       return initialState
-    // case CREATED_CART:
-    //   return {...state, ...action.cart, loading: false}
     default:
       return state
   }
