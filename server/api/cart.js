@@ -15,13 +15,10 @@ router.get('/:userId', async (req, res, next) => {
         attributes: ['id', 'name', 'price']
       }
     })
-    // TODO: make sure Cart price is up-to-date with Mask price
     currentCart.total = currentCart.total / 100
     currentCart.masks.forEach(mask => {
       mask.price = mask.price / 100
     })
-    // TODO: calculate order total before sending JSON
-
     res.json(currentCart)
   } catch (error) {
     next(error)
@@ -38,54 +35,41 @@ router.post('/:userId/addToCart/:maskId', async (req, res, next) => {
           status: 'cart'
         }
       })
-      // TODO: what if already in cart?
       const updateToCart = await userCart.addMask([req.params.maskId])
-      // console.log("Add mask to cart: ", response)
-      // TODO: could add req.body with QUANTITY
-
-      // res.json(userCart)
-      // res.json(updateToCart)
-      // res.redirect('/')
-    } else {
-      //TODO: create user (as guest), create order, then add to cart
-    }
-
-    // *** if no cart...
-  } catch (error) {
-    next(error)
-  }
-})
-
-// *** CREATE new order (with status = cart)
-
-// *** UPDATE cart (quantity)
-router.post('/:orderId/update/:maskId', async (req, res, next) => {
-  try {
-    const [NumOfAffectedRows, affectedRows] = await Cart.update(req.body, {
-      where: {
-        orderId: req.params.orderId,
-        maskId: req.params.maskId
-      },
-      returning: true,
-      plain: true
-    })
-    if (affectedRows) {
-      res.json(affectedRows)
     }
   } catch (error) {
     next(error)
   }
 })
 
-// console.log(Object.keys(Order.prototype))
+router.post(
+  '/:userId/:orderId/update/:maskId',
+  async (req, res, next) => {
+    try {
+      const [NumOfAffectedRows, affectedRows] = await Cart.update(req.body, {
+        where: {
+          orderId: req.params.orderId,
+          maskId: req.params.maskId
+        },
+        returning: true,
+        plain: true
+      })
+      if (affectedRows) {
+        res.json(affectedRows)
+      }
+    } catch (error) {
+      next(error)
+    }
+  }
+)
 
 // *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE, create new order with status "cart")
-router.put('/:id/submit', async (req, res, next) => {
+router.put('/:userId/submit', async (req, res, next) => {
   try {
-    if (req.params.id) {
+    if (req.params.userId) {
       const foundOrder = await Order.findOne({
         where: {
-          userId: req.params.id,
+          userId: req.params.userId,
           status: 'cart'
         },
         include: {
@@ -106,7 +90,7 @@ router.put('/:id/submit', async (req, res, next) => {
         total: total
       })
 
-      const theUser = await User.findByPk(req.params.id)
+      const theUser = await User.findByPk(req.params.userId)
       const theNewCart = theUser.createOrder()
 
       res.json(theNewCart)
@@ -116,8 +100,7 @@ router.put('/:id/submit', async (req, res, next) => {
   }
 })
 
-//Deleting an item from a cart
-
+// *** Deleting an item from a cart
 router.delete('/:orderId/remove/:maskId', async (req, res, next) => {
   try {
     const userCart = await Order.findByPk(req.params.orderId)

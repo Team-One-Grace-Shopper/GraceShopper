@@ -51,6 +51,7 @@ export class CartItem extends Component {
             type="button"
             onClick={() =>
               this.props.updateCart(
+                this.props.userId,
                 this.props.mask.cart.orderId,
                 this.props.mask.id,
                 {quantity: this.state.quantity}
@@ -83,9 +84,9 @@ export class CartItem extends Component {
 
 const mapDispatch = dispatch => {
   return {
-    updateCart: (orderId, maskId, update) => {
-      dispatch(updateCart(orderId, maskId, update))
-    }
+    // updateCart: (userId, orderId, maskId, update) => {
+    //   dispatch(updateCart(userId, orderId, maskId, update))
+    // }
   }
 }
 

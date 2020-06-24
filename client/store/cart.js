@@ -11,7 +11,6 @@ const UPDATED_CART = 'UPDATED_CART'
 const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
 const REMOVED_ITEM = 'REMOVED_ITEM'
-// const CREATED_CART = 'CREATED_CART'
 
 /**
  //* ACTION CREATORS
@@ -26,7 +25,6 @@ export const updatedCart = (maskId, cart) => ({
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = cart => ({type: REMOVE_CART, cart})
 export const removedItem = maskId => ({type: REMOVED_ITEM, maskId})
-// export const createdCart = cart => ({type: CREATED_CART, cart})
 
 /**
  //* THUNK CREATORS
@@ -38,8 +36,7 @@ export const getCart = userId => {
         const {data} = await axios.get(`/api/cart/${userId}`)
         dispatch(gotCart(data))
       } else {
-        //TODO: if user is not logged in, create user ("isGuest = true"), create cart
-        console.log('Create a guest user & cart!')
+        console.log('Sorry, please signup & login!')
       }
     } catch (error) {
       console.log('Whoops, trouble fetching desired cart!', error)
@@ -53,20 +50,17 @@ export const addToCart = (userId, mask) => {
       const {cart} = await axios.post(
         `/api/cart/${userId}/addToCart/${mask.id}`
       )
-      console.log('Add to cart DATA: ', cart)
       dispatch(addedToCart({...mask, ...cart}))
-      // dispatch(gotCart(userId))
-      // history.push('/cart')
     } catch (error) {
       console.log('Whoops, trouble adding to cart!', error)
     }
   }
 }
-export const updateCart = (orderId, maskId, update) => {
+export const updateCart = (userId, orderId, maskId, update) => {
   return async dispatch => {
     try {
       const {data} = await axios.post(
-        `/api/cart/${orderId}/update/${maskId}`,
+        `/api/cart/${userId}/${orderId}/update/${maskId}`,
         update
       )
       dispatch(updatedCart(maskId, data))
@@ -76,23 +70,10 @@ export const updateCart = (orderId, maskId, update) => {
   }
 }
 
-// export const createCart = userId => {
-//   return async dispatch => {
-//     try {
-//       const {data} = await axios.post(`/api/cart/${userId}`)
-//       dispatch(createdCart(data))
-//       console.log('DATA IN CREATECART THUNK -->', data)
-//     } catch (error) {
-//       console.log('Something went wrong in createCart Thunk', error)
-//     }
-//   }
-// }
-
 export const submitOrder = userId => {
   return async dispatch => {
     try {
       await axios.put(`/api/cart/${userId}/submit`)
-      // await dispatch(createCart(userId))
     } catch (error) {
       console.log('Whoops, trouble submitting order or redirecting!', error)
     }
@@ -145,8 +126,6 @@ export default function(state = initialState, action) {
         ...state,
         masks: state.masks.filter(mask => mask.id !== action.maskId)
       }
-    // case CREATED_CART:
-    //   return {...state, ...action.cart, loading: false}
     default:
       return state
   }
