@@ -40,7 +40,7 @@ export class CartItem extends Component {
         </TableCell>
         <TableCell align="right">
           <input
-            type="text"
+            type="number"
             value={this.state.quantity}
             onChange={event => this.setState({quantity: event.target.value})}
             onKeyDown={this.handleKey}
