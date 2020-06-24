@@ -134,7 +134,7 @@ export default function(state = initialState, action) {
         ...state,
         ...action.cart,
         loading: false,
-        subtotal: getTotalGotCart(action.cart.masks)
+        subtotal: getTotalGotCart(action.cart.masks).toFixed(2)
       }
     case ADDED_TO_CART:
       return {
@@ -156,7 +156,8 @@ export default function(state = initialState, action) {
           }
           return mask
         }),
-        subtotal: getTotalUpdate(state.masks),
+        // numObj.toFixed(1)
+        subtotal: getTotalUpdate(state.masks).toFixed(2),
         loading: false
       }
     case REMOVE_CART:
