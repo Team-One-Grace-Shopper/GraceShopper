@@ -60,7 +60,7 @@ export class CartPage extends Component {
                       Total
                     </TableCell>
                     <TableCell colSpan={1} align="right">
-                      {cart.total}
+                      {cart.subtotal}
                     </TableCell>
                     <TableCell colSpan={1} align="right" />
                   </TableRow>

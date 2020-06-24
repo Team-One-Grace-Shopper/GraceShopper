@@ -102,7 +102,8 @@ export const submitOrder = userId => {
  */
 const initialState = {
   masks: [],
-  loading: true
+  loading: true,
+  subtotal: 50
 }
 
 /**
