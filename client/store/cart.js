@@ -152,7 +152,9 @@ export default function(state = initialState, action) {
       return {
         ...state,
         masks: state.masks.filter(mask => mask.id !== action.maskId),
-        subtotal: (state.subtotal -= found.price * found.cart.quantity)
+        subtotal: (state.subtotal -= found.price * found.cart.quantity).toFixed(
+          2
+        )
       }
     default:
       return state
