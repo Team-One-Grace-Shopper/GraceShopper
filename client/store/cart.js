@@ -10,6 +10,7 @@ const ADDED_TO_CART = 'ADDED_TO_CART'
 const UPDATED_CART = 'UPDATED_CART'
 const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
 const REMOVE_CART = 'REMOVE_CART'
+const REMOVED_ITEM = 'REMOVED_ITEM'
 // const CREATED_CART = 'CREATED_CART'
 
 /**
@@ -24,6 +25,7 @@ export const updatedCart = (maskId, cart) => ({
 })
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
 export const removeCart = cart => ({type: REMOVE_CART, cart})
+export const removedItem = maskId => ({type: REMOVED_ITEM, maskId})
 // export const createdCart = cart => ({type: CREATED_CART, cart})
 
 /**
@@ -97,6 +99,17 @@ export const submitOrder = userId => {
   }
 }
 
+export const removeItem = (orderId, maskId) => {
+  return async dispatch => {
+    try {
+      await axios.delete(`api/cart/${orderId}/remove/${maskId}`)
+      dispatch(removedItem(maskId))
+    } catch (error) {
+      console.log('Whoops, trouble deleting item from your cart!')
+    }
+  }
+}
+
 /**
  //* INITIAL STATE
  */
@@ -112,12 +125,21 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_CART:
-      return {...state, ...action.cart, loading: false}
+      const findTotal = (arr, startVal = 0) => {
+        return arr.reduce((accum, masks) => {
+          return accum + masks.price * masks.cart.quantity
+        }, startVal)
+      }
+      return {
+        ...state,
+        ...action.cart,
+        loading: false,
+        subtotal: findTotal(action.cart.masks)
+      }
     case ADDED_TO_CART:
       return {
         ...state,
         masks: [...state.masks, action.mask],
-        subtotal: 999999999999,
         loading: false
       }
     case UPDATED_CART:
@@ -129,10 +151,18 @@ export default function(state = initialState, action) {
           }
           return mask
         }),
+        // subtotal: 200,
         loading: false
       }
     case REMOVE_CART:
       return initialState
+    case REMOVED_ITEM:
+      return {
+        ...state,
+        masks: state.masks.filter(mask => mask.id !== action.maskId)
+      }
+    // case CREATED_CART:
+    //   return {...state, ...action.cart, loading: false}
     default:
       return state
   }

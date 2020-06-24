@@ -115,3 +115,19 @@ router.put('/:id/submit', async (req, res, next) => {
     next(error)
   }
 })
+
+//Deleting an item from a cart
+
+router.delete('/:orderId/remove/:maskId', async (req, res, next) => {
+  try {
+    const userCart = await Order.findByPk(req.params.orderId)
+    if (userCart) {
+      userCart.removeMask(req.params.maskId)
+      res.send(userCart).status(202)
+    } else {
+      res.sendStatus(404)
+    }
+  } catch (error) {
+    next(error)
+  }
+})

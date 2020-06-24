@@ -15,6 +15,10 @@ nav a {
   margin: 1em;
 }
 
+div .root {
+  flex-grow: 1;
+}
+
 form div {
   margin: 1em;
   display: inline-block;
