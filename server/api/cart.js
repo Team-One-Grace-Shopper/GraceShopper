@@ -70,8 +70,7 @@ router.post(
     } catch (error) {
       next(error)
     }
-  }
-)
+})
 
 // *** SUBMIT order (get current price of mask (from mask model) to update $ in cart model, calculate order total, mark order as "placed", update the order DATE, create new order with status "cart")
 router.put('/:userId/submit', isLogging, async (req, res, next) => {
@@ -111,7 +110,7 @@ router.put('/:userId/submit', isLogging, async (req, res, next) => {
 })
 
 // *** Deleting an item from a cart
-router.delete('/:orderId/remove/:maskId', isLogging, async (req, res, next) => {
+router.delete('/:userId/:orderId/remove/:maskId', isLogging, async (req, res, next) => {
   try {
     const userCart = await Order.findByPk(req.params.orderId)
     if (userCart) {

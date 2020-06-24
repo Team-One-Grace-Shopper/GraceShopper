@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {getCart, updateCart, removeItem} from '../store/cart'
 import history from '../history'
-import {CartItem} from './cart-item'
+import {CartItem} from './index'
 
 //#region   CARD & TABLE
 import Card from '@material-ui/core/Card'
@@ -105,17 +104,10 @@ const mapDispatch = dispatch => {
     updateCart: (userId, orderId, maskId, update) => {
       dispatch(updateCart(userId, orderId, maskId, update))
     },
-    removeItem: (orderId, maskId) => {
-      dispatch(removeItem(orderId, maskId))
+    removeItem: (userId, orderId, maskId) => {
+      dispatch(removeItem(userId, orderId, maskId))
     }
   }
 }
 
 export default connect(mapState, mapDispatch)(CartPage)
-
-/**
- //* PROP TYPES
-*/
-// CartPage.propTypes = {
-//   cart: PropTypes.array
-// }

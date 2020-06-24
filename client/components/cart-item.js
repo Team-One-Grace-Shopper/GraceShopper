@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {updateCart} from '../store/cart'
 
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
@@ -34,7 +33,6 @@ export class CartItem extends Component {
   }
 
   render() {
-    // TODO: update form input validation to not allow anything but integers
     return (
       <TableRow>
         <TableCell component="th" scope="row">
@@ -69,6 +67,7 @@ export class CartItem extends Component {
             type="button"
             onClick={() => {
               this.props.removeItem(
+                this.props.userId,
                 this.props.mask.cart.orderId,
                 this.props.mask.id
               )
@@ -83,11 +82,7 @@ export class CartItem extends Component {
 }
 
 const mapDispatch = dispatch => {
-  return {
-    // updateCart: (userId, orderId, maskId, update) => {
-    //   dispatch(updateCart(userId, orderId, maskId, update))
-    // }
-  }
+  return {}
 }
 
 export default connect(null, mapDispatch)(CartItem)

@@ -7,14 +7,12 @@ import {
   Signup,
   UserHome,
   AllMasks,
-  LandingPage,
   SingleMask,
   CartPage,
   Thanks,
   Checkout
 } from './components'
 import {me} from './store'
-// import {getCart} from './store/cart'
 
 /**
  * COMPONENT

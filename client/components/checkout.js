@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {submitOrder} from '../store/cart'
-import {getCart} from '../store/cart'
+import {submitOrder, getCart} from '../store/cart'
 import history from '../history'
-class Checkout extends React.Component {
+
+import {Button} from '@material-ui/core'
+class Checkout extends Component {
   componentDidMount() {
     this.props.getCart(this.props.userId)
   }
 
   async handleSubmit() {
-    console.log('Button clicked. Cart was placed')
     await this.props.submitOrder(this.props.userId)
     history.push('/thanks')
   }
@@ -35,12 +35,19 @@ class Checkout extends React.Component {
           <label>Credit Card</label>
           <input type="text" />
         </form>
-        <button onClick={() => this.handleSubmit()}>Confirm!</button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={() => this.handleSubmit()}
+        >
+          Confirm!
+        </Button>
       </div>
     )
   }
 }
-//this.props.submitOrder(this.props.userId)
+
 const mapStateToProps = state => ({
   cart: state.cart,
   userId: state.user.id

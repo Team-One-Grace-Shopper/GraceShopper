@@ -14,9 +14,6 @@ function isAdmin(req, res, next) {
 router.get('/', isAdmin, async (req, res, next) => {
   try {
     const allOrders = await Order.findAll({
-      // where: {
-      //   attributes: ['date', 'total', 'status']
-      // },
       include: {
         model: User,
         attributes: ['firstName', 'lastName', 'email']
