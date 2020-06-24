@@ -9,7 +9,6 @@ const GOT_CART = 'GOT_CART'
 const ADDED_TO_CART = 'ADDED_TO_CART'
 const UPDATED_CART = 'UPDATED_CART'
 const SUBMITTED_ORDER = 'SUBMITTED_ORDER'
-const REMOVE_CART = 'REMOVE_CART'
 const REMOVED_ITEM = 'REMOVED_ITEM'
 
 /**
@@ -23,7 +22,6 @@ export const updatedCart = (maskId, cart) => ({
   cart
 })
 export const submittedOrder = cart => ({type: SUBMITTED_ORDER, cart})
-export const removeCart = cart => ({type: REMOVE_CART, cart})
 export const removedItem = maskId => ({type: REMOVED_ITEM, maskId})
 
 /**
@@ -119,8 +117,6 @@ export default function(state = initialState, action) {
         }),
         loading: false
       }
-    case REMOVE_CART:
-      return initialState
     case REMOVED_ITEM:
       return {
         ...state,
