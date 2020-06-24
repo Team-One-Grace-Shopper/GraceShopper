@@ -17,7 +17,7 @@ export class SingleMask extends Component {
       <div>
         <h2>{mask.name}</h2>
         <h3>${mask.price}</h3>
-        <img src={mask.imageUrl} height="600" width="600" />
+        <img src={mask.imageUrl} height="500" width="500" />
         <h4>Description: {mask.description}</h4>
         <Button
           variant="contained"

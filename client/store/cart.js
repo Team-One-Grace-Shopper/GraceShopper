@@ -95,6 +95,7 @@ export const removeItem = (userId, orderId, maskId) => {
  */
 const initialState = {
   masks: [],
+  subtotal: 0,
   loading: true
 }
 
@@ -104,10 +105,29 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_CART:
-      return {...state, ...action.cart, loading: false}
+      const getTotalGotCart = (arr, startVal = 0) => {
+        return arr.reduce((accum, masks) => {
+          return accum + masks.price * masks.cart.quantity
+        }, startVal)
+      }
+      return {
+        ...state,
+        ...action.cart,
+        loading: false,
+        subtotal: getTotalGotCart(action.cart.masks).toFixed(2)
+      }
     case ADDED_TO_CART:
-      return {...state, masks: [...state.masks, action.mask], loading: false}
+      return {
+        ...state,
+        masks: [...state.masks, action.mask],
+        loading: false
+      }
     case UPDATED_CART:
+      const getTotalUpdate = (arr, startVal = 0) => {
+        return arr.reduce((accum, masks) => {
+          return accum + masks.price * masks.cart.quantity
+        }, startVal)
+      }
       return {
         ...state,
         masks: state.masks.map(mask => {
@@ -116,14 +136,23 @@ export default function(state = initialState, action) {
           }
           return mask
         }),
+        // numObj.toFixed(1)
+        subtotal: getTotalUpdate(state.masks).toFixed(2),
         loading: false
       }
     case REMOVE_CART:
       return initialState
     case REMOVED_ITEM:
+      // const getTotalRemoveCart = (arr, startVal = 0) => {
+      //   return arr.reduce((accum, masks) => {
+      //     return accum + masks.price * masks.cart.quantity
+      //   }, startVal)
+      // }
+      const found = state.masks.find(mask => mask.id === action.maskId)
       return {
         ...state,
-        masks: state.masks.filter(mask => mask.id !== action.maskId)
+        masks: state.masks.filter(mask => mask.id !== action.maskId),
+        subtotal: (state.subtotal -= found.price * found.cart.quantity)
       }
     default:
       return state
