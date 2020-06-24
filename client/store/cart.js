@@ -125,7 +125,7 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_CART:
-      const findTotal = (arr, startVal = 0) => {
+      const getTotalGotCart = (arr, startVal = 0) => {
         return arr.reduce((accum, masks) => {
           return accum + masks.price * masks.cart.quantity
         }, startVal)
@@ -134,7 +134,7 @@ export default function(state = initialState, action) {
         ...state,
         ...action.cart,
         loading: false,
-        subtotal: findTotal(action.cart.masks)
+        subtotal: getTotalGotCart(action.cart.masks)
       }
     case ADDED_TO_CART:
       return {
@@ -143,6 +143,11 @@ export default function(state = initialState, action) {
         loading: false
       }
     case UPDATED_CART:
+      const getTotalUpdate = (arr, startVal = 0) => {
+        return arr.reduce((accum, masks) => {
+          return accum + masks.price * masks.cart.quantity
+        }, startVal)
+      }
       return {
         ...state,
         masks: state.masks.map(mask => {
@@ -151,15 +156,21 @@ export default function(state = initialState, action) {
           }
           return mask
         }),
-        // subtotal: 200,
+        subtotal: getTotalUpdate(state.masks),
         loading: false
       }
     case REMOVE_CART:
+      // const getTotalRemoveCart = (arr, startVal = 0) => {
+      //   return arr.reduce((accum, masks) => {
+      //     return accum + masks.price * masks.cart.quantity
+      //   }, startVal)
+      // }
       return initialState
     case REMOVED_ITEM:
       return {
         ...state,
         masks: state.masks.filter(mask => mask.id !== action.maskId)
+        // subtotal: getTotalRemoveCart(state.masks)
       }
     // case CREATED_CART:
     //   return {...state, ...action.cart, loading: false}
