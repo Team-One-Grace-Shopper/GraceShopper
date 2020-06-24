@@ -18,7 +18,6 @@ router.get('/:id', async (req, res, next) => {
   try {
     const singleMask = await Mask.findByPk(req.params.id)
     singleMask.price = singleMask.price / 100
-    console.log(singleMask)
     res.json(singleMask)
   } catch (error) {
     next(error)
