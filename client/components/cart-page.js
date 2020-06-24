@@ -102,9 +102,8 @@ const mapDispatch = dispatch => {
   console.log('Mapping dispatch to props')
   return {
     getCart: userId => dispatch(getCart(userId)),
-    // TODO: submitOrder
-    updateCart: (orderId, maskId, update) => {
-      dispatch(updateCart(orderId, maskId, update))
+    updateCart: (userId, orderId, maskId, update) => {
+      dispatch(updateCart(userId, orderId, maskId, update))
     },
     removeItem: (orderId, maskId) => {
       dispatch(removeItem(orderId, maskId))
