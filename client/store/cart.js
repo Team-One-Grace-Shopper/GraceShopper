@@ -79,10 +79,10 @@ export const submitOrder = userId => {
   }
 }
 
-export const removeItem = (orderId, maskId) => {
+export const removeItem = (userId, orderId, maskId) => {
   return async dispatch => {
     try {
-      await axios.delete(`api/cart/${orderId}/remove/${maskId}`)
+      await axios.delete(`api/cart/${userId}/${orderId}/remove/${maskId}`)
       dispatch(removedItem(maskId))
     } catch (error) {
       console.log('Whoops, trouble deleting item from your cart!')

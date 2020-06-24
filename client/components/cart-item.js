@@ -67,6 +67,7 @@ export class CartItem extends Component {
             type="button"
             onClick={() => {
               this.props.removeItem(
+                this.props.userId,
                 this.props.mask.cart.orderId,
                 this.props.mask.id
               )

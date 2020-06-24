@@ -104,8 +104,8 @@ const mapDispatch = dispatch => {
     updateCart: (userId, orderId, maskId, update) => {
       dispatch(updateCart(userId, orderId, maskId, update))
     },
-    removeItem: (orderId, maskId) => {
-      dispatch(removeItem(orderId, maskId))
+    removeItem: (userId, orderId, maskId) => {
+      dispatch(removeItem(userId, orderId, maskId))
     }
   }
 }
